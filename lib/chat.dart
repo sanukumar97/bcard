@@ -5,6 +5,13 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
+        ConversationCard(),
+        ConversationCard(),
+        ConversationCard(),
+        ConversationCard(),
+        ConversationCard(),
+        ConversationCard(),
+        ConversationCard(),
         ConversationCard()
       ],
     );
