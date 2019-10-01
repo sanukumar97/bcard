@@ -4,6 +4,7 @@ import 'todo.dart';
 import 'chat.dart';
 import 'cards.dart';
 import 'profile.dart';
+import 'card_profile.dart';
 import 'sharecard.dart';
 import 'login_screen.dart';
 
