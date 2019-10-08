@@ -8,9 +8,7 @@ import 'card_profile.dart';
 import 'sharecard.dart';
 import 'login_screen.dart';
 
-class CardProfilePage extends StatelessWidget {
-
-  int  _selectedIndex = 0;
+class CardProfilePage extends StatefulWidget {
 
   static List<Widget> _widgetOptions = <Widget>[
     Todo(),
@@ -19,6 +17,13 @@ class CardProfilePage extends StatelessWidget {
     ProfilePage(),
     ShareCardPage()
   ];
+
+  @override
+  _CardProfilePageState createState() => _CardProfilePageState();
+}
+
+class _CardProfilePageState extends State<CardProfilePage> {
+  int  _selectedIndex = 0;
 
   void _onItemTapped(int index){
     setState((){
@@ -47,7 +52,7 @@ class CardProfilePage extends StatelessWidget {
         ],
       ),
       body: Container(
-        child: _widgetOptions.elementAt(_selectedIndex)
+        child: CardProfilePage._widgetOptions.elementAt(_selectedIndex)
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
@@ -226,4 +231,111 @@ class CardProfile extends StatelessWidget {
       ]
     );
   }
+}
+
+
+class DataSearch extends SearchDelegate<String>{
+
+  final members = [
+    "Sanket Chaudhari",
+    "Jahnavi Gupta",
+    "Sanu Kumar",
+    "Mark Zuckerberg",
+    "Bill Gates",
+    "Avicii",
+    "Martin Garrix",
+    "Tiesto",
+    "The Chainsmokers",
+    "Bebe Rexha",
+    "James Gosling",
+    "Larry Page",
+    "Sergey Brin",
+    "Lauv",
+    "Marshmello",
+    "Steve Jobs",
+    "Linus Torvalds",
+    "Tim Berners Lee"
+  ];
+
+  final recentSearches = [
+    "Sanket Chaudhari",
+    "Martin Garrix",
+    "The Chainsmokers",
+    "Mark Zuckerberg"
+  ];
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    // actions for appbar
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: (){
+          query = "";
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: transitionAnimation,
+      ),
+      onPressed: (){
+        close(context, null);
+      }
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    int i = recentSearches.indexOf(query);
+    if(query.length != 0){
+      if(i != -1){
+        recentSearches.removeAt(i);
+      }
+      recentSearches.insert(0, query);
+    }
+    return Container(
+      child: Center(
+        child: Text("Search Result of $query")
+      )
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty ? recentSearches : members.where((p) => p.startsWith(query)).toList();
+
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        onTap: (){
+          query = suggestionList[index];
+          query = suggestionList[index];
+        },
+        title: RichText(
+          text: TextSpan(
+            text: suggestionList[index].substring(0, query.length),
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold
+            ),
+            children: [
+              TextSpan(
+                text: suggestionList[index].substring(query.length),
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ]
+          )
+        )
+      ),
+      itemCount: suggestionList.length,
+    );
+  }
+
 }
