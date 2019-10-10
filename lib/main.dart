@@ -69,9 +69,10 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Container(
-        child: _widgetOptions.elementAt(_selectedIndex)
-      ),
+      body: LoginScreenScaffold(),
+      // body: Container(
+      //   child: CardProfilePage._widgetOptions.elementAt(_selectedIndex)
+      // ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: (){
