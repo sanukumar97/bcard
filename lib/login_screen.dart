@@ -3,18 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth mAuth = FirebaseAuth.instance;
 
-class LoginScreenScaffold extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoginScreen()
-    );
-  }
-}
+class LoginSignUpPage extends StatefulWidget 
 
-class LoginScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<StatefulWidget> createState() => new _LoginSignUpPageState();
+
 }
 
 class _LoginScreenState extends State<LoginScreen> {

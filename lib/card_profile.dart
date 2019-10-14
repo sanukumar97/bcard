@@ -23,6 +23,7 @@ class CardProfilePage extends StatefulWidget {
 }
 
 class _CardProfilePageState extends State<CardProfilePage> {
+  final _formKey = GlobalKey<FormState>();
   int  _selectedIndex = 0;
 
   void _onItemTapped(int index){
