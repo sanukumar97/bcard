@@ -52,6 +52,9 @@ class _CardProfilePageState extends State<CardProfilePage> {
           )
         ],
       ),
+      body: Container(
+        child: CardProfilePage._widgetOptions.elementAt(_selectedIndex)
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),

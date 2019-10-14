@@ -2,40 +2,61 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth mAuth = FirebaseAuth.instance;
-class LoginSignUpPage extends StatefulWidget {
+
+class LoginSignUpPage extends StatefulWidget 
 
   @override
   State<StatefulWidget> createState() => new _LoginSignUpPageState();
 
 }
 
-class _LoginSignUpPageState extends State<LoginSignUpPage>{
-  final _formKey = GlobalKey<FormState>();
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
+  String _email;
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new Container(
-        child: ListView(
-          children: <Widget>[
-            Form(
-              key: _formKey,
-              child: ListView(
-                children: <Widget>[
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              )
-            )
-          ],
-        )
-      ),
+    return Container(
+      child: ListView(
+        children: <Widget>[
+          new TextFormField(
+            maxLines: 1,
+            keyboardType: TextInputType.emailAddress,
+            autofocus: false,
+            decoration: new InputDecoration(
+                hintText: 'Email',
+                icon: new Icon(
+                  Icons.mail,
+                  color: Colors.grey,
+                )),
+            validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+            onSaved: (value) => {
+              print(value)
+            },
+          ),
+          TextFormField(
+            controller: passwordController,
+          ),
+          RaisedButton(
+            onPressed: (){
+              signUpWithEmailPassword();
+            },
+            child: Text("Submit")
+          )
+        ],
+      )
     );
+  }
+
+  void signUpWithEmailPassword() async {
+    FirebaseUser user;
+    try {
+      print(_email);
+    } catch(e) {
+      print(e);
+    } finally {
+      print("User created");
+    }
   }
 }
