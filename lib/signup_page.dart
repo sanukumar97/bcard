@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'style/theme.dart' as Theme;
+import './style/theme.dart' as Theme;
 import 'package:bcard/utils/bubble_indication_painter.dart';
+
+import './utils/snackbar.dart';
 import './services/misc.dart';
+import './services/signup.dart';
+import './models/user.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -130,22 +134,6 @@ class _LoginPageState extends State<LoginPage>
     ]);
 
     _pageController = PageController();
-  }
-
-  void showInSnackBar(String value) {
-    _scaffoldKey.currentState?.removeCurrentSnackBar();
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
-      content: new Text(
-        value,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-            fontFamily: "WorkSansSemiBold"),
-      ),
-      backgroundColor: Colors.blue,
-      duration: Duration(seconds: 3),
-    ));
   }
 
   Widget _buildMenuBar(BuildContext context) {
@@ -326,7 +314,7 @@ class _LoginPageState extends State<LoginPage>
                       ),
                     ),
                     onPressed: () =>
-                        showInSnackBar("Login button pressed")),
+                        showInSnackBar(_scaffoldKey, "Login button pressed")),
               ),
             ],
           ),
@@ -564,17 +552,23 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: (){
+                    onPressed: () async {
                       if(_signUpKey.currentState.validate()){
                         showLoading(context, "Registering..");
-                        print("Username: ${signupNameController.text}");
-                        print("Designation: ${signupDesignationController.text}");
-                        print("Email: ${signupEmailController.text}");
-                        print("Password: ${signupPasswordController.text}");
-                        Future.delayed(Duration(seconds: 3), (){
-                          Navigator.pop(context);
 
-                        });
+                        CreateUserModel createUserModel = CreateUserModel(
+                          signupNameController.text,
+                          signupEmailController.text,
+                          signupPasswordController.text,
+                          signupDesignationController.text
+                        );
+
+                        print(createUserModel.email);
+
+                        final errmsg = await createUser(context, createUserModel);
+                        if(errmsg != null){
+                          showInSnackBar(_scaffoldKey, errmsg);
+                        }
                       }
                     },
                 )
