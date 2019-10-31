@@ -17,7 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  firebase_auth: an
+  firebase_auth: any
   font_awesome_flutter: any
   flutter:
     sdk: flutter

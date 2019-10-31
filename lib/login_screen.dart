@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth mAuth = FirebaseAuth.instance;
 
-class LoginSignUpPage extends StatefulWidget 
+class LoginSignUpPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => new _LoginSignUpPageState();
