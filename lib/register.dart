@@ -119,6 +119,7 @@ class _LoginPageState extends State<LoginPage>
   void dispose() {
     myFocusNodePassword.dispose();
     myFocusNodeEmail.dispose();
+    myFocusNodeDesignation.dispose();
     myFocusNodeName.dispose();
     _pageController?.dispose();
     super.dispose();
