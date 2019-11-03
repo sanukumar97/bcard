@@ -1,13 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import './style/theme.dart' as Theme;
-import 'package:bcard/utils/bubble_indication_painter.dart';
 
-import './utils/snackbar.dart';
-import './services/misc.dart';
-import './services/signup.dart';
-import './models/user.dart';
+import 'package:bcard/utils/bubble_indication_painter.dart';
+import 'package:bcard/homepage.dart';
+import 'package:bcard/utils/snackbar.dart';
+import 'package:bcard/services/misc.dart';
+import 'package:bcard/services/signup.dart';
+import 'package:bcard/models/user.dart';
+import 'package:bcard/style/theme.dart' as Theme;
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -209,7 +211,13 @@ class _LoginPageState extends State<LoginPage>
                       Padding(
                         padding: EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
+                        child: TextFormField(
+                          validator: (value){
+                            if(!value.contains("@")){
+                              return "Invalid Email Address";
+                            }
+                            return null;
+                          },
                           focusNode: myFocusNodeEmailLogin,
                           controller: loginEmailController,
                           keyboardType: TextInputType.emailAddress,
@@ -238,7 +246,13 @@ class _LoginPageState extends State<LoginPage>
                       Padding(
                         padding: EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
+                        child: TextFormField(
+                          validator: (value){
+                            if(value.isEmpty){
+                              return "Please enter password";
+                            }
+                            return null;
+                          },
                           focusNode: myFocusNodePasswordLogin,
                           controller: loginPasswordController,
                           obscureText: _obscureTextLogin,
@@ -314,8 +328,29 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () =>
-                        showInSnackBar(_scaffoldKey, "Login button pressed")),
+                    onPressed: () async {
+                      showLoading(context, "Logging In..");
+                      CreateUserModel createUserModel = CreateUserModel(
+                        "",
+                        loginEmailController.text,
+                        loginPasswordController.text,
+                        ""
+                      );
+                      dynamic errmsg = await loginUser(context, createUserModel);
+
+                      if(errmsg != null){
+                        showInSnackBar(_scaffoldKey, errmsg);
+                      } else {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage()
+                            ),
+                            (Route<dynamic> route) => false
+                          );
+                        }
+                    }
+                )
               ),
             ],
           ),
@@ -569,6 +604,14 @@ class _LoginPageState extends State<LoginPage>
                         final errmsg = await createUser(context, createUserModel);
                         if(errmsg != null){
                           showInSnackBar(_scaffoldKey, errmsg);
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage()
+                            ),
+                            (Route<dynamic> route) => false
+                          );
                         }
                       }
                     },

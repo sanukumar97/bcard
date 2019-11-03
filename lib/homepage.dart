@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 
-import 'todo.dart';
-import 'chat.dart';
-import 'cards.dart';
-import 'profile.dart';
-import 'sharecard.dart';
+import 'package:bcard/todo.dart';
+import 'package:bcard/chat.dart';
+import 'package:bcard/cards.dart';
+import 'package:bcard/card_profile.dart';
+import 'package:bcard/profile.dart';
+import 'package:bcard/sharecard.dart';
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     Todo(),
     ChatPage(),
     CardsPage(),
-    ProfilePage(),
+    CardProfilePage(),
     ShareCardPage()
   ];
 
@@ -28,8 +47,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,9 +54,19 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "BCard"
+            "BCard",
+            style: TextStyle(
+              color: Colors.black
+            )
           ),
-          backgroundColor: const Color(0xff6699cc),
+          leading: IconButton(
+            icon: Icon(Icons.person),
+            onPressed: (){
+              Navigator.of(context).push(_createRoute());
+            },
+            color: Colors.black
+          ),
+          backgroundColor: const Color(0xffffffff),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
@@ -49,6 +76,7 @@ class _HomePageState extends State<HomePage> {
                   delegate: DataSearch()
                 );
               },
+              color: Colors.black,
               padding: EdgeInsets.all(10.0)
             )
           ],
@@ -56,95 +84,43 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           child: _widgetOptions.elementAt(_selectedIndex)
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () { },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-          elevation: 2.0,
-          backgroundColor: Color(0xff6699cc),
+          child: Icon(Icons.search),
+          onPressed: (){
+                showSearch(
+                  context: context,
+                  delegate: DataSearch()
+                );
+          },
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: (){},
-                padding: EdgeInsets.all(4.0),
-                color: Colors.white,
-              ),
-              IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: (){},
-                padding: EdgeInsets.all(4.0),
-                color: Colors.white,
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.white
-                ),
-                onPressed: (){},
-                padding: EdgeInsets.all(4.0),
-                color: Colors.white,
-                focusColor: Colors.transparent,
-              ),
-              IconButton(
-                icon: Icon(Icons.card_membership),
-                onPressed: (){},
-                padding: EdgeInsets.all(4.0),
-                color: Colors.white,
-              ),
-              IconButton(
-                icon: Icon(Icons.share),
-                onPressed: (){},
-                padding: EdgeInsets.all(4.0),
-                color: Colors.white,
-              )
-            ],
-          ),
-          shape: CircularNotchedRectangle(),
-          color: Color(0xff6699cc),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem> [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text("Home"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              title: Text("Notification")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              title: Text("Feeds")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.card_membership),
+              title: Text("Cards")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.share),
+              title: Text("Share Card")
+            )
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blueGrey,
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.search),
-        //   onPressed: (){
-        //         showSearch(
-        //           context: context,
-        //           delegate: DataSearch()
-        //         );
-        //   },
-        // ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   items: const <BottomNavigationBarItem> [
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.home),
-        //       title: Text("Home")
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.message),
-        //       title: Text("Chat")
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.card_membership),
-        //       title: Text("Cards")
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.person),
-        //       title: Text("Profile")
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.share),
-        //       title: Text("Share Card")
-        //     )
-        //   ],
-        //   currentIndex: _selectedIndex,
-        //   selectedItemColor: Colors.blueGrey,
-        //   unselectedItemColor: Colors.grey,
-        //   onTap: _onItemTapped
-        // ),
       ),
     );
   }

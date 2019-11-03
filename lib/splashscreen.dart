@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'package:bcard/register.dart';
 import 'package:bcard/homepage.dart';
@@ -28,19 +27,18 @@ class _SplashScreenState extends State<SplashScreen> {
         switchTo = "login";
       }
       if(switchTo == "home"){
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: HomePage()
-          )
+          MaterialPageRoute(
+            builder: (context) => HomePage()
+          ),
+          (Route<dynamic> route) => false
         );
       }
       else if(switchTo == "login"){
         Navigator.of(context).pushAndRemoveUntil(
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: LoginPage()
+          MaterialPageRoute(
+            builder: (context) => LoginPage()
           ),
           (Route<dynamic> route) => false
         );

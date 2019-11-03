@@ -10,10 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BCard',
       home: SplashScreen(),
-      // home: DefaultTabController(
-      //   length: 5,
-      //   child: HomePage()
-      // ),
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

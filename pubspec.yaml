@@ -20,7 +20,6 @@ dependencies:
   rxdart: any
   firebase_auth: any
   cloud_firestore: any
-  page_transition: any
   font_awesome_flutter: any
   flutter:
     sdk: flutter

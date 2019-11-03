@@ -1,139 +1,86 @@
+import 'package:bcard/ui/myprofile.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.all(2.0),
-      children: <Widget>[
-        Container(
-          height: 200.0,
-          child: Card(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Sanket Chaudhari",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      )
-                    )
-                  )
-                ),
-                Expanded(
-                  child: Center(
-                    child: Card(
-                      color: Colors.blueGrey[100],
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        child: Center(
-                          child: Text("Photo")
-                        )
-                      )
-                    ),
-                  ),
-                )
-              ],
-            ),
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0.0,
+        title: Text("Business Card"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: (){
+              _scaffoldKey.currentState.openEndDrawer();
+            },
           )
-        ),
-
-        Container(
-          padding: EdgeInsets.all(3.0),
-          child: Wrap(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
-                child: Chip(
-                  label: Text("music producer"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
-                child: Chip(
-                  label: Text("artist"),
-                ),
-              )
-            ],
-          )
-        ),
-        Divider(),
-        Row(
+        ],
+      ),
+      body: MyProfile(),
+      endDrawer: Drawer(
+        child: ListView(
           children: <Widget>[
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.my_location),
-                onPressed: (){},
+            Container(
+              height: 63.0,
+              child: DrawerHeader(
+                child: Text(
+                  "Settings",
+                  style: TextStyle(
+                    fontSize: 20.0
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  
+                ),
               ),
             ),
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.mail),
-                onPressed: (){},
+            ListTile(
+              title: Text(
+                "Invite Friends"
               ),
+              onTap:(){}
             ),
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.share),
-                onPressed: (){},
+            ListTile(
+              title: Text(
+                "Card Preference"
               ),
+              onTap:(){}
             ),
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.chat_bubble),
-                onPressed: (){},
+            ListTile(
+              title: Text(
+                "Security"
               ),
+              onTap:(){}
+            ),
+            ListTile(
+              title: Text(
+                "About"
+              ),
+              onTap:(){}
+            ),
+            ListTile(
+              title: Text(
+                "Help"
+              ),
+              onTap:(){}
+            ),
+            ListTile(
+              title: Text(
+                "Log Out"
+              ),
+              onTap:(){}
             )
           ],
         ),
-        Divider(),
-        Container(
-          margin: EdgeInsets.all(10.0),
-          child: TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: '+ Todo',
-                contentPadding: EdgeInsets.all(3.0)
-              ),
-          )
-        ),
-        Wrap(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Center(
-                  child: Checkbox(
-                    value: false,
-                    onChanged: (value){},
-                  )
-                ),
-                Flexible(
-                  child: Text(
-                    "Appointment at 20:00 for an in-person interview in Koffee++, DA-IICT"
-                  ),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Center(
-                  child: Checkbox(
-                    value: false,
-                    onChanged: (value){},
-                  )
-                ),
-                Flexible(
-                  child: Text(
-                    "Studio Session"
-                  ),
-                )
-              ],
-            )
-          ],
-        )
-      ]
+      ),
     );
   }
 }
