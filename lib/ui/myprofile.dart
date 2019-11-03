@@ -11,7 +11,15 @@ class _MyProfileState extends State<MyProfile> {
     return ListView(
       children: <Widget>[
         ProfileMode(),
+        SizedBox(
+          height: 30
+        ),
         ProfilePicture(),
+        ProfileInfo(),
+        SizedBox(
+          height: 30
+        ),
+        ProfileStats()
       ],
     );
   }
@@ -82,21 +90,117 @@ class ProfileMode extends StatelessWidget {
 class ProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      width: 100,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0)
-        ),
-        child: SizedBox(
-          width: 100,
-          height: 100,
-          child: Center(
-            child: Text("Blah")
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Card(
+          color: Colors.grey[100],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)
+          ),
+          child: SizedBox(
+            width: 120,
+            height: 120,
+            child: Center(
+              child: Text("Avatar")
+            ),
           ),
         ),
-      ),
+      ]
+    );
+  }
+}
+
+class ProfileInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          "Sanket Chaudhari",
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold
+          )
+        ),
+        Text(
+          "(Developer)",
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold
+          )
+        )
+      ],
+    );
+  }
+}
+
+class ProfileStats extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.black12,
+              radius: 35.0,
+              child: Text(
+                "1024",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black
+                )
+              )
+            ),
+            Text(
+              "Connections",
+              style: TextStyle(
+                fontWeight: FontWeight.bold
+              )
+            )
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.black12,
+              radius: 35.0,
+              child: Icon(
+                Icons.face,
+                color: Colors.black,
+                size: 50.0
+              )
+            ),
+            Text(
+              "Focus Mode",
+              style: TextStyle(
+                fontWeight: FontWeight.bold
+              )
+            )
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.black12,
+              radius: 35.0,
+              child: Icon(
+                Icons.remove_red_eye,
+                color: Colors.black,
+                size: 50.0
+              )
+            ),
+            Text(
+              "Connections",
+              style: TextStyle(
+                fontWeight: FontWeight.bold
+              )
+            )
+          ],
+        )
+      ],
     );
   }
 }
