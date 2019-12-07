@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:bcard/todo.dart';
-import 'package:bcard/chat.dart';
-import 'package:bcard/cards.dart';
-import 'package:bcard/card_profile.dart';
-import 'package:bcard/profile.dart';
-import 'package:bcard/sharecard.dart';
+import 'package:bcard/ui/todo.dart';
+import 'package:bcard/ui/chat.dart';
+import 'package:bcard/ui/cards.dart';
+import 'package:bcard/ui/card_profile.dart';
+import 'package:bcard/ui/profile.dart';
+import 'package:bcard/ui/sharecard.dart';
 
 Route _createRoute() {
   return PageRouteBuilder(

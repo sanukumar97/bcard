@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:bcard/utils/bubble_indication_painter.dart';
-import 'package:bcard/homepage.dart';
+import 'package:bcard/ui/homepage.dart';
 import 'package:bcard/utils/snackbar.dart';
 import 'package:bcard/services/misc.dart';
 import 'package:bcard/services/signup.dart';

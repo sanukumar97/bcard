@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bcard/register.dart';
-import 'package:bcard/homepage.dart';
+import 'package:bcard/ui/register.dart';
+import 'package:bcard/ui/homepage.dart';
 import 'package:bcard/utils/current_user.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   String switchTo;
 
-  void init(context) async {
+  void init() async {
     FirebaseUser user = await currentUser();
     Future.delayed(Duration(seconds: 1), (){
       if(user != null){
@@ -49,8 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     switchTo = "";
-    init(context);
-    context;
+    init();
     super.initState();
   }
 

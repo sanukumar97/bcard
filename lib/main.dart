@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:bcard/splashscreen.dart';
+import 'package:bcard/ui/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
