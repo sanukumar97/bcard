@@ -213,6 +213,7 @@ class _LoginPageState extends State<LoginPage>
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextFormField(
                           validator: (value){
+                            //TODO: not a UI logic, should be made as an abstracted function
                             if(!value.contains("@")){
                               return "Invalid Email Address";
                             }
@@ -222,12 +223,14 @@ class _LoginPageState extends State<LoginPage>
                           controller: loginEmailController,
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
+                            //TODO: Styles of an app should be generic and should be defined in a file
                               fontFamily: "WorkSansSemiBold",
                               fontSize: 16.0,
                               color: Colors.black),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(
+                              //TODO: Icons should also be abstracted in another function
                               FontAwesomeIcons.envelope,
                               color: Colors.black,
                               size: 22.0,
@@ -239,12 +242,14 @@ class _LoginPageState extends State<LoginPage>
                         ),
                       ),
                       Container(
+                        //TODO: hard-coding
                         width: 250.0,
                         height: 1.0,
                         color: Colors.grey[400],
                       ),
                       Padding(
                         padding: EdgeInsets.only(
+                          //TODO: hard-coding
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextFormField(
                           validator: (value){
@@ -329,6 +334,7 @@ class _LoginPageState extends State<LoginPage>
                       ),
                     ),
                     onPressed: () async {
+                      //TODO : Seriously wrong way of doing this
                       showLoading(context, "Logging In..");
                       CreateUserModel createUserModel = CreateUserModel(
                         "",

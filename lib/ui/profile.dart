@@ -14,7 +14,7 @@ class _ProfilePageState extends State<ProfilePage> {
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0.0,
-        title: Text("Business Card"),
+        title: Text("Profile"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
