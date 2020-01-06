@@ -1,3 +1,4 @@
+import 'package:bcard/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 
 class Business extends StatefulWidget {
@@ -48,10 +49,45 @@ class ProfileInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Sanket Chaudhari",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-        Text("(Developer)",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold))
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                  children: <Widget>[
+                    Text("Sanket Chaudhari",
+                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  ]),
+              SizedBox(width: 5,),
+              GestureDetector(
+                child: Material(
+                  child: InkWell(
+                    child: SizedBox(
+                      child: Image.asset('assets/icons/edit.png', height: 13, width: 13, scale: 1,),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              )]),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                  children: <Widget>[
+                    Text("Developer",
+                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  ]),
+              SizedBox(width: 5,),
+              GestureDetector(
+                child: Material(
+                  child: InkWell(
+                    child: SizedBox(
+                      child: Image.asset('assets/icons/edit.png', height: 13, width: 13, scale: 1,),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              )
+            ])
       ],
     );
   }
@@ -67,11 +103,21 @@ class ProfileStats extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
-                CircleAvatar(
-                    backgroundColor: Colors.black12,
-                    radius: 30.0,
-                    child: Text("1024",
-                        style: TextStyle(fontSize: 20.0, color: Colors.black))),
+                ClipOval(
+                  child: Material(
+                    color: Colors.black12, // button color
+                    child: InkWell(
+                      child: SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: Icon(
+                            CustomIcons.group_12,
+                            size: 40.0,
+                          )),
+                      onTap: () {},
+                    ),
+                  ),
+                ),
                 Text("Connections",
                     style: TextStyle(fontWeight: FontWeight.bold))
               ],
@@ -83,18 +129,16 @@ class ProfileStats extends StatelessWidget {
                     color: Colors.black12, // button color
                     child: InkWell(
                       child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Icon(
-                            Icons.face,
-                            size: 40.0,
-                          )),
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/focus.png'),
+                      ),
                       onTap: () {},
                     ),
                   ),
                 ),
-                Text("Focus Mode",
-                    style: TextStyle(fontWeight: FontWeight.bold))
+                Text(
+                    "Focus Mode", style: TextStyle(fontWeight: FontWeight.bold))
               ],
             ),
             Column(
@@ -104,20 +148,18 @@ class ProfileStats extends StatelessWidget {
                     color: Colors.black12, // button color
                     child: InkWell(
                       child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Icon(
-                            Icons.remove_red_eye,
-                            size: 40.0,
-                          )),
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/card.png'),
+                      ),
                       onTap: () {},
                     ),
                   ),
                 ),
-                Text("Connections",
+                Text("Card Visitors",
                     style: TextStyle(fontWeight: FontWeight.bold))
               ],
-            ),
+            )
           ],
         ),
         SizedBox(height: 30),
@@ -131,18 +173,14 @@ class ProfileStats extends StatelessWidget {
                     color: Colors.black12, // button color
                     child: InkWell(
                       child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Icon(
-                            Icons.face,
-                            size: 40.0,
-                          )),
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/web.png'),
+                      ),
                       onTap: () {},
                     ),
                   ),
                 ),
-                Text("Focus Mode",
-                    style: TextStyle(fontWeight: FontWeight.bold))
               ],
             ),
             Column(
@@ -152,18 +190,14 @@ class ProfileStats extends StatelessWidget {
                     color: Colors.black12, // button color
                     child: InkWell(
                       child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Icon(
-                            Icons.face,
-                            size: 40.0,
-                          )),
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/social.png'),
+                      ),
                       onTap: () {},
                     ),
                   ),
                 ),
-                Text("Social",
-                    style: TextStyle(fontWeight: FontWeight.bold))
               ],
             ),
             Column(
@@ -173,18 +207,14 @@ class ProfileStats extends StatelessWidget {
                     color: Colors.black12, // button color
                     child: InkWell(
                       child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Icon(
-                            Icons.mail,
-                            size: 40.0,
-                          )),
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/email.png'),
+                      ),
                       onTap: () {},
                     ),
                   ),
                 ),
-                Text("E-Mail",
-                    style: TextStyle(fontWeight: FontWeight.bold))
               ],
             ),
             Column(
@@ -194,18 +224,14 @@ class ProfileStats extends StatelessWidget {
                     color: Colors.black12, // button color
                     child: InkWell(
                       child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Icon(
-                            Icons.location_on,
-                            size: 40.0,
-                          )),
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/location.png'),
+                      ),
                       onTap: () {},
                     ),
                   ),
                 ),
-                Text("Location",
-                    style: TextStyle(fontWeight: FontWeight.bold))
               ],
             ),
           ],

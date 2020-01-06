@@ -1,3 +1,5 @@
+import 'package:bcard/presentation/custom_icons_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FirstMeet extends StatefulWidget {
@@ -10,12 +12,12 @@ class FirstMeetState extends State<FirstMeet> {
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView(children: <Widget>[
-      SizedBox(height: 30),
-      ProfilePicture(),
-      ProfileInfo(),
-      SizedBox(height: 30),
-      ProfileStats()
-    ]));
+          SizedBox(height: 30),
+          ProfilePicture(),
+          ProfileInfo(),
+          SizedBox(height: 30),
+          ProfileStats()
+        ]));
   }
 }
 
@@ -53,10 +55,45 @@ class ProfileInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Sanket Chaudhari",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-        Text("(Developer)",
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                  children: <Widget>[
+                    Text("Sanket Chaudhari",
+                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  ]),
+              SizedBox(width: 5,),
+              GestureDetector(
+                child: Material(
+                  child: InkWell(
+                    child: SizedBox(
+                      child: Image.asset('assets/icons/edit.png', height: 13, width: 13, scale: 1,),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              )]),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                  children: <Widget>[
+                    Text("Developer",
+                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  ]),
+              SizedBox(width: 5,),
+              GestureDetector(
+                child: Material(
+                  child: InkWell(
+                    child: SizedBox(
+                      child: Image.asset('assets/icons/edit.png', height: 13, width: 13, scale: 1,),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              )
+            ])
       ],
     );
   }
@@ -65,60 +102,69 @@ class ProfileInfo extends StatelessWidget {
 class ProfileStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            CircleAvatar(
-                backgroundColor: Colors.black12,
-                radius: 30.0,
-                child: Text("1024",
-                    style: TextStyle(fontSize: 20.0, color: Colors.black))),
-            Text("Connections", style: TextStyle(fontWeight: FontWeight.bold))
-          ],
-        ),
-        Column(
-          children: <Widget>[
-            ClipOval(
-              child: Material(
-                color: Colors.black12, // button color
-                child: InkWell(
-                  child: SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Icon(
-                        Icons.face,
-                        size: 40.0,
-                      )),
-                  onTap: () {},
+    return Column(children: <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              ClipOval(
+                child: Material(
+                  color: Colors.black12, // button color
+                  child: InkWell(
+                    child: SizedBox(
+                        width: 60,
+                        height: 60,
+                      child: Image.asset('assets/icons/focus.png'),
+                    ),
+                    onTap: () {},
+                  ),
                 ),
               ),
-            ),
-            Text("Focus Mode", style: TextStyle(fontWeight: FontWeight.bold))
-          ],
-        ),
-        Column(
-          children: <Widget>[
-            ClipOval(
-              child: Material(
-                color: Colors.black12, // button color
-                child: InkWell(
-                  child: SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Icon(
-                        Icons.remove_red_eye,
-                        size: 40.0,
-                      )),
-                  onTap: () {},
+              Text("Connections",
+                  style: TextStyle(fontWeight: FontWeight.bold))
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              ClipOval(
+                child: Material(
+                  color: Colors.black12, // button color
+                  child: InkWell(
+                    child: SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Image.asset('assets/icons/focus.png'),
+                        ),
+                    onTap: () {},
+                  ),
                 ),
               ),
-            ),
-            Text("Connections", style: TextStyle(fontWeight: FontWeight.bold))
-          ],
-        )
-      ],
-    );
+              Text(
+                  "Focus Mode", style: TextStyle(fontWeight: FontWeight.bold))
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              ClipOval(
+                child: Material(
+                  color: Colors.black12, // button color
+                  child: InkWell(
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: Image.asset('assets/icons/card.png'),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              ),
+              Text("Card Visitors",
+                  style: TextStyle(fontWeight: FontWeight.bold))
+            ],
+          )
+        ],
+      )
+    ]);
   }
 }

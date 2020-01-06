@@ -113,7 +113,7 @@ class _CardProfilePageState extends State<CardProfilePage> {
           child: TextField(
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: '+ Todo',
+              hintText: 'Add a new Todo',
               contentPadding: EdgeInsets.all(3.0)
             ),
           )

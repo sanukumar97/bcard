@@ -1,5 +1,5 @@
+import 'package:bcard/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
-
 import 'package:bcard/ui/todo.dart';
 import 'package:bcard/ui/chat.dart';
 import 'package:bcard/ui/cards.dart';
@@ -34,11 +34,11 @@ class _HomePageState extends State<HomePage> {
   int  _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    Todo(),
-    ChatPage(),
     CardsPage(),
+    Todo(),
     CardProfilePage(),
-    ShareCardPage()
+    ShareCardPage(),
+    ChatPage()
   ];
 
   void _onItemTapped(int index){
@@ -96,24 +96,23 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem> [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text("Home"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              title: Text("Notification")
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
+                icon: ImageIcon(AssetImage('assets/icons/feeds.png')),
               title: Text("Feeds")
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.card_membership),
-              title: Text("Cards")
+              icon: Icon(CustomIcons.group_65_2),
+              title: Text("To-Do"),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.share),
+              icon: Icon(CustomIcons.card_collection),
+              title: Text("  Cards")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CustomIcons.group_140),
               title: Text("Share Card")
+            ), BottomNavigationBarItem(
+                icon: Icon(CustomIcons.group_651),
+                title: Text("Notifications")
             )
           ],
           currentIndex: _selectedIndex,
