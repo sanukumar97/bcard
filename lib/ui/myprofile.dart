@@ -19,131 +19,150 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  ClipOval(
-                    child: Material(
-                      color: Colors.black12, // button color
-                      child: InkWell(
-                        child: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Icon(
-                              CustomIcons.first_meet,
-                              color: _iconColor1,
-                              size: 35.0,
-                            )),
-                        onTap: () {
-                          setState(() {
-                            _iconColor1 = Colors.black;
-                            _iconColor2 = Colors.grey;
-                            _iconColor3 = Colors.grey;
-                            selectedWidgetMarker = WidgetMarker.firsMeet;
-                          });
-                        },
+    return Scaffold(
+        body: Center(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        ClipOval(
+                          child: Material(
+                            color: Colors.black12, // button color
+                            child: InkWell(
+                              child: SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: Icon(
+                                    CustomIcons.first_meet,
+                                    color: _iconColor1,
+                                    size: 35.0,
+                                  )),
+                              onTap: () {
+                                setState(() {
+                                  _iconColor1 = Colors.black;
+                                _iconColor2 = Colors.grey;
+                                _iconColor3 = Colors.grey;
+                                selectedWidgetMarker = WidgetMarker.firsMeet;
+                              });
+                            },
+                          ),
+                        ),
                       ),
-                    ),
+                      Text("First Meet")
+                    ],
                   ),
-                  Text("First Meet")
+                  Padding(padding: EdgeInsets.all(5.0)),
+                  Column(
+                    children: <Widget>[
+                      ClipOval(
+                        child: Material(
+                          color: Colors.black12, // button color
+                          child: InkWell(
+                            child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Icon(
+                                  CustomIcons.group_9,
+                                  size: 35.0,
+                                  color: _iconColor2,
+                                )),
+                            onTap: () {
+                              setState(() {
+                                _iconColor2 = Colors.black;
+                                _iconColor1 = Colors.grey;
+                                _iconColor3 = Colors.grey;
+                                selectedWidgetMarker = WidgetMarker.business;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Text("Business")
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.all(5.0)),
+                  Column(
+                    children: <Widget>[
+                      ClipOval(
+                        child: Material(
+                          color: Colors.black12, // button color
+                          child: InkWell(
+                            child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Icon(
+                                  CustomIcons.group_8,
+                                  color: _iconColor3,
+                                  size: 35.0,
+                                )),
+                            onTap: () {
+                              setState(() {
+                                _iconColor3 = Colors.black;
+                                _iconColor2 = Colors.grey;
+                                _iconColor1 = Colors.grey;
+                                selectedWidgetMarker = WidgetMarker.personal;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Text("Personal")
+                    ],
+                  )
                 ],
               ),
-              Padding(padding: EdgeInsets.all(5.0)),
-              Column(
-                children: <Widget>[
-                  ClipOval(
-                    child: Material(
-                      color: Colors.black12, // button color
-                      child: InkWell(
-                        child: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Icon(
-                              CustomIcons.group_9,
-                              size: 35.0,
-                              color: _iconColor2,
-                            )),
-                        onTap: () {
-                          setState(() {
-                            _iconColor2 = Colors.black;
-                            _iconColor1 = Colors.grey;
-                            _iconColor3 = Colors.grey;
-                            selectedWidgetMarker = WidgetMarker.business;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Text("Business")
-                ],
+              SizedBox(height: 30),
+              ProfilePicture(),
+              ProfileInfo(),
+              SizedBox(height: 30),
+              Container(
+                child: getCustomContainer(),
               ),
-              Padding(padding: EdgeInsets.all(5.0)),
-              Column(
-                children: <Widget>[
-                  ClipOval(
-                    child: Material(
-                      color: Colors.black12, // button color
-                      child: InkWell(
-                        child: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Icon(
-                              CustomIcons.group_8,
-                              color: _iconColor3,
-                              size: 35.0,
-                            )),
-                        onTap: () {
-                          setState(() {
-                            _iconColor3 = Colors.black;
-                            _iconColor2 = Colors.grey;
-                            _iconColor1 = Colors.grey;
-                            selectedWidgetMarker = WidgetMarker.personal;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Text("Personal")
-                ],
-              )
             ],
           ),
-          Container(
-            child: getCustomContainer(),
-          ),
-          /*Container(
-            height: 25.0,
-              child: Row(children: <Widget>[
-                Column(children: <Widget>[
-                  Align(
-                      alignment: Alignment.bottomCenter,
+        ),
+        ),
+      bottomNavigationBar: new Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(bottom: 10),
+        color: Colors.white,
+        height: 55,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child:
+                ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: Color(0xffE5E8EE),
                       child: Container(
-                          height: 25.0,
-                          //alignment: Alignment.bottomCenter,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                                color: Colors.tealAccent,
-                                height: 10.0,
-                                child: Text('$index'),
-                              );
-                            },
-                          )))
-                ]),
-                Column(children: <Widget>[
-                  IconButton(icon: Icon(Icons.add))
-                ],)
-          ]))*/
-        ],
+                        padding: EdgeInsets.all(10.0),
+                        child: Center(child:Text("#HashTag $index")),
+                      ),
+                    );
+                  },
+                ),
+            ),
+            Card(
+              color: Color(0xffE5E8EE),
+              child: Container(
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.add),
+                  )
+                ),
+              )
+            )
+          ],
+        ),
       ),
     );
   }
@@ -170,5 +189,82 @@ class _MyProfileState extends State<MyProfile> {
 
   Widget getPersonalContainer() {
     return Personal();
+  }
+}
+
+class ProfilePicture extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Card(
+          color: Colors.grey[100],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          child: Container(
+            height: 120.0,
+            width: 120.0,
+            decoration: new BoxDecoration(
+              image: new DecorationImage(
+                image: new NetworkImage('https://firebasestorage.googleapis.com/v0/b/bcard-8a11b.appspot.com/o/new.jpg?alt=media&token=6f09631f-c466-42f7-a008-cca024419d80'),
+                fit: BoxFit.cover,
+              ),
+              shape: BoxShape.circle,
+            ),
+          )),
+    ]);
+  }
+}
+
+class ProfileInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Column(children: <Widget>[
+            Text("Sanket Chaudhari", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+          ]),
+          SizedBox(
+            width: 5,
+          ),
+          GestureDetector(
+            child: Material(
+              child: InkWell(
+                child: SizedBox(
+                  child: Image.asset('assets/icons/edit.png',
+                    height: 13,
+                    width: 13,
+                    scale: 1,
+                  ),
+                ),
+                onTap: () {},
+              ),
+            ),
+          )
+        ]),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Column(children: <Widget>[
+            Text("Developer", style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+          ]),
+          SizedBox(
+            width: 5,
+          ),
+          GestureDetector(
+            child: Material(
+              child: InkWell(
+                child: SizedBox(
+                  child: Image.asset('assets/icons/edit.png',
+                    height: 13,
+                    width: 13,
+                    scale: 1,
+                  ),
+                ),
+                onTap: () {},
+              ),
+            ),
+          )
+        ])
+      ],
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:bcard/presentation/custom_icons_icons.dart';
 import 'package:bcard/ui/myprofile.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text("Profile"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(CustomIcons.path_237),
             onPressed: (){
               _scaffoldKey.currentState.openEndDrawer();
             },
