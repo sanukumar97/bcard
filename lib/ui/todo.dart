@@ -6,31 +6,39 @@ class Todo extends StatefulWidget {
 }
 
 class _TodoState extends State<Todo> {
+  bool isDone = false;
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        TodoCard(),
-      ]
-    );
-  }
-}
-
-class TodoList extends StatefulWidget {
-  @override
-  _TodoListState createState() => _TodoListState();
-}
-
-class _TodoListState extends State<TodoList> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        TodoCard()
-      ],
+    return SafeArea(
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            TodoCard(),
+            SizedBox(height: 30),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: ClampingScrollPhysics(),
+                child: Container(
+                  height: 1,
+                  child: ListView(
+                    physics: ClampingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    children: List.generate(
+                      1,
+                      (index) {
+                        return Center(child: TodoCard());
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -41,7 +49,6 @@ class TodoCard extends StatefulWidget {
 }
 
 class _TodoCardState extends State<TodoCard> {
-
   bool isDone = true;
 
   @override
@@ -65,19 +72,11 @@ class _TodoCardState extends State<TodoCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        "Sanket Chaudhari",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold
-                        )
-                      ),
-                      Text(
-                        "DJ, Music Producer",
-                        style: TextStyle(
-                          color: Colors.grey
-                        )
-                      )
+                      Text("Sanket Chaudhari",
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold)),
+                      Text("DJ, Music Producer",
+                          style: TextStyle(color: Colors.grey))
                     ],
                   ),
                   Flexible(
@@ -86,8 +85,8 @@ class _TodoCardState extends State<TodoCard> {
                   Container(
                     child: Checkbox(
                       value: isDone,
-                      onChanged: (bool value){
-                        setState((){
+                      onChanged: (bool value) {
+                        setState(() {
                           isDone = !isDone;
                         });
                       },
@@ -118,12 +117,12 @@ class _TodoCardState extends State<TodoCard> {
                 "Appointment at 20:00 for an in-person interview in Koffee++, DA-IICT",
                 style: TextStyle(
                   height: 1.5,
-                )
+                ),
               ),
             )
           ],
         ),
-      )
+      ),
     );
   }
 }

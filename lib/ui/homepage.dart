@@ -1,5 +1,5 @@
+import 'package:bcard/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
-
 import 'package:bcard/ui/todo.dart';
 import 'package:bcard/ui/chat.dart';
 import 'package:bcard/ui/cards.dart';
@@ -14,9 +14,7 @@ Route _createRoute() {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;
       var curve = Curves.ease;
-
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
       return SlideTransition(
         position: animation.drive(tween),
         child: child,
@@ -31,103 +29,86 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int  _selectedIndex = 0;
+  int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    Todo(),
-    ChatPage(),
     CardsPage(),
+    Todo(),
     CardProfilePage(),
-    ShareCardPage()
+    ShareCardPage(),
+    ChatPage()
   ];
 
-  void _onItemTapped(int index){
-    setState((){
-      _selectedIndex = index;
-    });
+  void _onItemTapped(int index) {
+    setState(
+      () {
+        _selectedIndex = index;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "BCard",
-            style: TextStyle(
-              color: Colors.black
-            )
+    return SafeArea(
+      child: DefaultTabController(
+        length: 5,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("BCard", style: TextStyle(color: Colors.black)),
+            leading: IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  Navigator.of(context).push(_createRoute());
+                },
+                color: Colors.black),
+            backgroundColor: const Color(0xffffffff),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    showSearch(context: context, delegate: DataSearch());
+                  },
+                  color: Colors.black,
+                  padding: EdgeInsets.all(10.0))
+            ],
           ),
-          leading: IconButton(
-            icon: Icon(Icons.person),
-            onPressed: (){
-              Navigator.of(context).push(_createRoute());
+          body: Container(child: _widgetOptions.elementAt(_selectedIndex)),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: DataSearch());
             },
-            color: Colors.black
           ),
-          backgroundColor: const Color(0xffffffff),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: (){
-                showSearch(
-                  context: context,
-                  delegate: DataSearch()
-                );
-              },
-              color: Colors.black,
-              padding: EdgeInsets.all(10.0)
-            )
-          ],
-        ),
-        body: Container(
-          child: _widgetOptions.elementAt(_selectedIndex)
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.search),
-          onPressed: (){
-                showSearch(
-                  context: context,
-                  delegate: DataSearch()
-                );
-          },
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem> [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text("Home"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              title: Text("Notification")
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              title: Text("Feeds")
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.card_membership),
-              title: Text("Cards")
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.share),
-              title: Text("Share Card")
-            )
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blueGrey,
-          unselectedItemColor: Colors.grey,
-          onTap: _onItemTapped
+          bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    icon: ImageIcon(AssetImage('assets/icons/feeds.png')),
+                    title: Text("Feeds")),
+                BottomNavigationBarItem(
+                  icon: Icon(CustomIcons.group_65_2),
+                  title: Text("To-Do"),
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(CustomIcons.card_collection),
+                    title: Text("  Cards")),
+                BottomNavigationBarItem(
+                    icon: Icon(CustomIcons.group_140),
+                    title: Text("Share Card")),
+                BottomNavigationBarItem(
+                    icon: Icon(CustomIcons.group_651),
+                    title: Text("Notifications"))
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.blueGrey,
+              unselectedItemColor: Colors.grey,
+              onTap: _onItemTapped),
         ),
       ),
     );
   }
 }
 
-class DataSearch extends SearchDelegate<String>{
-
+class DataSearch extends SearchDelegate<String> {
   final members = [
     "Sanket Chaudhari",
     "Jahnavi Gupta",
@@ -162,7 +143,7 @@ class DataSearch extends SearchDelegate<String>{
     return [
       IconButton(
         icon: Icon(Icons.clear),
-        onPressed: (){
+        onPressed: () {
           query = "";
         },
       )
@@ -176,58 +157,49 @@ class DataSearch extends SearchDelegate<String>{
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,
       ),
-      onPressed: (){
+      onPressed: () {
         close(context, null);
-      }
+      },
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
     int i = recentSearches.indexOf(query);
-    if(query.length != 0){
-      if(i != -1){
+    if (query.length != 0) {
+      if (i != -1) {
         recentSearches.removeAt(i);
       }
       recentSearches.insert(0, query);
     }
-    return Container(
-      child: Center(
-        child: Text("Search Result of $query")
-      )
-    );
+    return Container(child: Center(child: Text("Search Result of $query")));
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty ? recentSearches : members.where((p) => p.startsWith(query)).toList();
+    final suggestionList = query.isEmpty
+        ? recentSearches
+        : members.where((p) => p.startsWith(query)).toList();
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-        onTap: (){
+        onTap: () {
           query = suggestionList[index];
           query = suggestionList[index];
         },
         title: RichText(
           text: TextSpan(
             text: suggestionList[index].substring(0, query.length),
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             children: [
               TextSpan(
-                text: suggestionList[index].substring(query.length),
-                style: TextStyle(
-                  color: Colors.grey
-                )
-              )
-            ]
-          )
-        )
+                  text: suggestionList[index].substring(query.length),
+                  style: TextStyle(color: Colors.grey))
+            ],
+          ),
+        ),
       ),
       itemCount: suggestionList.length,
     );
   }
-
 }
