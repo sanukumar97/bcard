@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bcard">
-
+    package="com.peoplecard.app">
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -8,8 +8,15 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="bcard"
-        android:icon="@mipmap/ic_launcher">
+        android:label="People Card"
+        android:icon="@mipmap/icon">
+        <meta-data 
+               android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAsfvDrDLIjXP-KrEGQ9krFI9WboUOMFU0"/>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

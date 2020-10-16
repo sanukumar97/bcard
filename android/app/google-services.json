@@ -15,6 +15,75 @@
       },
       "oauth_client": [
         {
+          "client_id": "105151292848-1k0h3g7n6tti4tirg0ogt6i6gg0ul657.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bcard",
+            "certificate_hash": "1928ccb938a33aed2b7a5e5afcadad26bbced515"
+          }
+        },
+        {
+          "client_id": "105151292848-bo8ikeeqltgdej6a6qd0o7n9uee4aeuv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bcard",
+            "certificate_hash": "dbfaeff57738ae44d9d3310513f3802a55640153"
+          }
+        },
+        {
+          "client_id": "105151292848-6issq7p0696mf2qq6s2fm1n1ll33tq3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzpbsFFEkH6qBfgn9-V2jtal_1hWyUvIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105151292848-6issq7p0696mf2qq6s2fm1n1ll33tq3n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105151292848:android:c5c18ce45ea600be5ee275",
+        "android_client_info": {
+          "package_name": "com.peoplecard.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105151292848-267nkl0l4q1ce4rmhf41mrkot1tusnpq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.peoplecard.app",
+            "certificate_hash": "cc1e606a13de1771349db5a173ac68b3cbec458c"
+          }
+        },
+        {
+          "client_id": "105151292848-h20bnsdqmatc42goi70o8etf1oqff4qi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.peoplecard.app",
+            "certificate_hash": "1928ccb938a33aed2b7a5e5afcadad26bbced515"
+          }
+        },
+        {
+          "client_id": "105151292848-plglp7e2p0ho8f04pmtav1ujurlv7iie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.peoplecard.app",
+            "certificate_hash": "dbfaeff57738ae44d9d3310513f3802a55640153"
+          }
+        },
+        {
           "client_id": "105151292848-6issq7p0696mf2qq6s2fm1n1ll33tq3n.apps.googleusercontent.com",
           "client_type": 3
         }

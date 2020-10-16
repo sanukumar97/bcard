@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="117.771" height="117.771" viewBox="0 0 117.771 117.771">
+  <defs>
+    <filter id="Path_179" x="0" y="0" width="117.771" height="117.771" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-opacity="0.4"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_2714" data-name="Group 2714" transform="translate(-808.088 -1834.179)">
+    <g id="Group_1470" data-name="Group 1470" transform="translate(820.088 1846.178)" opacity="0.87">
+      <g transform="matrix(1, 0, 0, 1, -12, -12)" filter="url(#Path_179)">
+        <path id="Path_179-2" data-name="Path 179" d="M19.334,0h55.1A19.334,19.334,0,0,1,93.771,19.334v55.1A19.334,19.334,0,0,1,74.436,93.771h-55.1A19.334,19.334,0,0,1,0,74.436v-55.1A19.334,19.334,0,0,1,19.334,0Z" transform="translate(12 12)" fill="#5eb8f3"/>
+      </g>
+    </g>
+    <g id="Group_1471" data-name="Group 1471" transform="translate(834.588 1860.679)">
+      <line id="Line_56" data-name="Line 56" y2="64.89" transform="translate(32.445)" fill="none" stroke="#16202c" stroke-width="5"/>
+      <line id="Line_57" data-name="Line 57" y2="64.89" transform="translate(64.89 32.445) rotate(90)" fill="none" stroke="#16202c" stroke-width="5"/>
+    </g>
+  </g>
+</svg>
