@@ -75,12 +75,12 @@ class _ChatPageState extends State<ChatPage> {
 
   void _subscribeStream() {
     _messageStream = FirebaseFunctions.chatStream.listen((qs) {
-      qs.documentChanges.forEach((doc) {
+      qs.docChanges.forEach((doc) {
         if ([AppConfig.me.businessDocId, AppConfig.me.personalDocId]
-                .contains(doc.document.data["recieverProfileId"]) ||
+                .contains(doc.doc.data()["recieverProfileId"]) ||
             [AppConfig.me.businessDocId, AppConfig.me.personalDocId]
-                .contains(doc.document.data["senderProfileId"])) {
-          Message message = getMessage(doc.document);
+                .contains(doc.doc.data()["senderProfileId"])) {
+          Message message = getMessage(doc.doc);
           _messages.addMessage(message);
           if (AppConfig.messagesRead.isNotEmpty &&
               !AppConfig.messagesRead.contains(message.id)) {

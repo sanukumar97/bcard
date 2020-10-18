@@ -10,7 +10,7 @@ class TextMessage extends Message {
   }
 
   TextMessage.fromJson(DocumentSnapshot doc) : super.fromJson(doc) {
-    this.text = doc.data["text"];
+    this.text = doc.data()["text"];
   }
 
   Map<String, dynamic> toJson() {

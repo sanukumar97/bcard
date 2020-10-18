@@ -72,7 +72,7 @@ class _VerifyNumberScreenState extends State<VerifyNumberScreen> {
     }
   }
 
-  void verificationFailed(AuthException exp) {
+  void verificationFailed(FirebaseAuthException exp) {
     print("Verification Failed: ${exp.message}");
     setState(() {
       _verificationFailed = true;

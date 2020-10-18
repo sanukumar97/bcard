@@ -48,20 +48,20 @@ class AppConfig {
   static Future<void> getCardDesigns() async {
     List<DocumentSnapshot> docs = await FirebaseFunctions.getCardDesigns();
     docs.forEach((doc) {
-      if (doc.data["type"].toString() == "default") {
+      if (doc.data()["type"].toString() == "default") {
         AppConfig.defaultHorizantalCardDesign =
-            doc.data["horizantalCardDesign"];
-        AppConfig.defaultVerticalCardDesign = doc.data["verticalCardDesign"];
-      } else if (doc.data["type"].toString() == "customised") {
+            doc.data()["horizantalCardDesign"];
+        AppConfig.defaultVerticalCardDesign = doc.data()["verticalCardDesign"];
+      } else if (doc.data()["type"].toString() == "customised") {
         AppConfig.horizantalCardDesigns =
-            doc.data["horizantalCardDesigns"] != null
+            doc.data()["horizantalCardDesigns"] != null
                 ? new List<String>.generate(
-                    doc.data["horizantalCardDesigns"].length,
-                    (i) => doc.data["horizantalCardDesigns"][i])
+                    doc.data()["horizantalCardDesigns"].length,
+                    (i) => doc.data()["horizantalCardDesigns"][i])
                 : [];
-        AppConfig.verticalCardDesigns = doc.data["verticalCardDesigns"] != null
-            ? new List<String>.generate(doc.data["verticalCardDesigns"].length,
-                (i) => doc.data["verticalCardDesigns"][i])
+        AppConfig.verticalCardDesigns = doc.data()["verticalCardDesigns"] != null
+            ? new List<String>.generate(doc.data()["verticalCardDesigns"].length,
+                (i) => doc.data()["verticalCardDesigns"][i])
             : [];
       }
     });
@@ -91,18 +91,18 @@ class AppConfig {
 
   static Future<void> synchroniseChangesFromServer() async {
     DocumentReference ref =
-        Firestore.instance.collection("users").document(AppConfig.me.userId);
+        FirebaseFirestore.instance.collection("users").doc(AppConfig.me.userId);
     DocumentSnapshot doc = await ref.get();
-    AppConfig.me.requestedProfiles = doc.data["requestedProfiles"] != null
+    AppConfig.me.requestedProfiles = doc.data()["requestedProfiles"] != null
         ? List<String>.generate(
-            doc.data["requestedProfiles"].length,
-            (i) => doc.data["requestedProfiles"][i],
+            doc.data()["requestedProfiles"].length,
+            (i) => doc.data()["requestedProfiles"][i],
           )
         : [];
-    AppConfig.me.acceptedProfiles = doc.data["acceptedProfiles"] != null
+    AppConfig.me.acceptedProfiles = doc.data()["acceptedProfiles"] != null
         ? List<String>.generate(
-            doc.data["acceptedProfiles"].length,
-            (i) => doc.data["acceptedProfiles"][i],
+            doc.data()["acceptedProfiles"].length,
+            (i) => doc.data()["acceptedProfiles"][i],
           )
         : [];
     AppConfig.saveUserChanges();
@@ -120,19 +120,19 @@ class AppConfig {
       if (businessDoc != null && businessDoc.exists) {
         AppConfig.me.businessProfile.ref = businessDoc.reference;
         businessData = AppConfig.me.businessProfile
-            .tobeUpdatedData(Profile.fromJson(businessDoc.data));
+            .tobeUpdatedData(Profile.fromJson(businessDoc.data()));
         print("Update Personal Data: $businessData");
         if (businessData.isNotEmpty) {
-          businessDoc.reference.updateData(businessData);
+          businessDoc.reference.update(businessData);
         }
       }
       if (personalDoc != null && personalDoc.exists) {
         AppConfig.me.personalProfile.ref = personalDoc.reference;
         personalData = AppConfig.me.personalProfile
-            .tobeUpdatedData(Profile.fromJson(personalDoc.data));
+            .tobeUpdatedData(Profile.fromJson(personalDoc.data()));
         print("Update Personal Data: $personalData");
         if (personalData.isNotEmpty) {
-          personalDoc.reference.updateData(personalData);
+          personalDoc.reference.update(personalData);
         }
       }
     }

@@ -324,7 +324,7 @@ class _DiscoverProfileCardDetailsState
   Widget get _acceptedBody {
     Widget _reminderBody(Reminder reminder) {
       void _markAsDone(bool value) {
-        reminder.ref.updateData({"completed": value});
+        reminder.ref.update({"completed": value});
         setState(() {
           reminder.completed = value;
         });

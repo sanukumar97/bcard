@@ -15,14 +15,14 @@ class ProfileRequestNotification extends AppNotification {
 
   ProfileRequestNotification.fromJson(DocumentSnapshot doc) {
     this.ref = doc.reference;
-    this.id = doc.data["id"];
+    this.id = doc.data()["id"];
     this.notificationType = NotificationType.profileRequest;
-    this.senderProfileId = doc.data["senderProfileId"];
-    this.recieverProfileId = doc.data["recieverProfileId"];
-    this.senderUserId = doc.data["senderUserId"];
-    this.date = DateTime.parse(doc.data["date"].toString());
+    this.senderProfileId = doc.data()["senderProfileId"];
+    this.recieverProfileId = doc.data()["recieverProfileId"];
+    this.senderUserId = doc.data()["senderUserId"];
+    this.date = DateTime.parse(doc.data()["date"].toString());
     this.status =
-        RequestStatus.values[int.parse(doc.data["status"].toString())];
+        RequestStatus.values[int.parse(doc.data()["status"].toString())];
   }
 
   Map<String, dynamic> toJson() => {

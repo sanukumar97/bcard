@@ -14,12 +14,12 @@ class RecommendNotification extends AppNotification {
 
   RecommendNotification.fromJson(DocumentSnapshot doc) {
     this.ref = doc.reference;
-    this.id = doc.data["id"];
+    this.id = doc.data()["id"];
     this.notificationType = NotificationType.recommend;
-    this.senderProfileId = doc.data["senderProfileId"];
-    this.recieverProfileId = doc.data["recieverProfileId"];
-    this.date = DateTime.parse(doc.data["date"].toString());
-    this.recommendedProfileId = doc.data["recommendedProfileId"];
+    this.senderProfileId = doc.data()["senderProfileId"];
+    this.recieverProfileId = doc.data()["recieverProfileId"];
+    this.date = DateTime.parse(doc.data()["date"].toString());
+    this.recommendedProfileId = doc.data()["recommendedProfileId"];
   }
 
   Map<String, dynamic> toJson() => {

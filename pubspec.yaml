@@ -19,6 +19,7 @@ environment:
 dependencies:
   firebase_auth: any
   cloud_firestore: any
+  firebase_messaging: ^7.0.3
   font_awesome_flutter: any
   flutter_native_splash: ^0.1.9
   connectivity: ^0.4.9
@@ -26,8 +27,8 @@ dependencies:
   google_sign_in: ^4.5.1
   flutter_svg: ^0.18.0
   flutter_colorpicker: ^0.3.4
-  image_picker: ^0.6.7+4
-  firebase_storage: ^3.1.6
+  image_picker: ^0.6.7+12
+  firebase_storage: ^4.0.1
   image_cropper: ^1.2.3
   toast: ^0.1.5
   path_provider: ^1.6.11

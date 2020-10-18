@@ -42,7 +42,6 @@ class _NotificationPageState extends State<NotificationPage> {
   Map<String, List<AppNotification>> _notifications = {};
   bool _showProfile = false;
   Profile _shownProfile;
-  int _totNotifications = 0;
 
   bool _goback() {
     if (_showProfile) {
@@ -61,15 +60,14 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   void _subscribeStream() {
-    _totNotifications = 0;
     _requestStream = FirebaseFunctions.notificationStream.listen((qs) {
-      qs.documentChanges.forEach((doc) {
+      qs.docChanges.forEach((doc) {
         if ([
           AppConfig.me.businessDocId,
           AppConfig.me.personalDocId,
-        ].contains(doc.document.data["recieverProfileId"])) {
+        ].contains(doc.doc.data()["recieverProfileId"])) {
           AppNotification _notification =
-              AppNotification.getNotification(doc.document);
+              AppNotification.getNotification(doc.doc);
           if (!AppConfig.notificationsRead.contains(_notification.id)) {
             widget.newNotification();
             AppConfig.addNotificationRead(_notification.id);
@@ -99,7 +97,6 @@ class _NotificationPageState extends State<NotificationPage> {
     } else {
       _notifications[dt] = <AppNotification>[notification];
     }
-    _totNotifications += 1;
   }
 
   void _sort() {

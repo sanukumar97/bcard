@@ -175,9 +175,12 @@ class _HomePageState extends State<HomePage> {
               });
             },
             backgroundColor: color1,
-            fixedColor: color1,
+            //fixedColor: color1,
+            selectedItemColor: color4,
+            unselectedItemColor: color5,
             type: BottomNavigationBarType.fixed,
             iconSize: 20,
+            showUnselectedLabels: true,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -190,10 +193,7 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                   width: 20,
                 ),
-                title: Text(
-                  "Discover",
-                  style: myTs(color: color5, size: 12),
-                ),
+                label: "Discover",
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -206,10 +206,7 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                   width: 20,
                 ),
-                title: Text(
-                  "Cards",
-                  style: myTs(color: color5, size: 12),
-                ),
+                label: "Cards",
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -222,10 +219,7 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                   width: 30,
                 ),
-                title: Text(
-                  "",
-                  style: myTs(color: color5, size: 1),
-                ),
+                label: "",
               ),
               BottomNavigationBarItem(
                 icon: Stack(
@@ -256,10 +250,7 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                   width: 20,
                 ),
-                title: Text(
-                  "Notification",
-                  style: myTs(color: color5, size: 12),
-                ),
+                label: "Notification",
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -272,10 +263,7 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                   width: 20,
                 ),
-                title: Text(
-                  "To do",
-                  style: myTs(color: color5, size: 12),
-                ),
+                label: "To do",
               ),
             ],
           ),

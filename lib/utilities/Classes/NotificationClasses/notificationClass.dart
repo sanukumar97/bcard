@@ -13,7 +13,7 @@ abstract class AppNotification {
 
   static AppNotification getNotification(DocumentSnapshot doc) {
     NotificationType _type = NotificationType
-        .values[int.parse(doc.data["notificationType"].toString())];
+        .values[int.parse(doc.data()["notificationType"].toString())];
     switch (_type) {
       case NotificationType.profileRequest:
         return ProfileRequestNotification.fromJson(doc);

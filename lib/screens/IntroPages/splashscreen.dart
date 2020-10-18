@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatelessWidget {
   void init(BuildContext context) async {
-    FirebaseFunctions.init();
+    await FirebaseFunctions.init();
     AppLocation.init();
     await AppConnectivity.init();
     await AppConfig.init();

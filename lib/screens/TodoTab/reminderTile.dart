@@ -50,7 +50,7 @@ class _ReminderTileState extends State<ReminderTile> {
       widget.reminder.completed = value;
     });
     await Future.delayed(Duration(milliseconds: 1000));
-    widget.reminder.ref?.updateData({"completed": value});
+    widget.reminder.ref?.update({"completed": value});
   }
 
   void _openOptions() {

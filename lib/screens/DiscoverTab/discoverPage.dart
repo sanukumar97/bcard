@@ -209,7 +209,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           docs.forEach((e) {
             if (!AppConfig.me.cardLibraries[3].profileIds.contains(e["id"]) &&
                 !_currentProfiles.any((prf) => prf.id == e['id'].toString()))
-              _currentProfiles.add(new Profile.fromJson(e.data));
+              _currentProfiles.add(new Profile.fromJson(e.data()));
           });
           setState(() {
             _loading = false;

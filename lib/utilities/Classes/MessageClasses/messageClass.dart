@@ -16,12 +16,12 @@ abstract class Message {
 
   Message.fromJson(DocumentSnapshot doc) {
     this.ref = doc.reference;
-    this.id = doc.data["id"];
-    this.type = MessageType.values[int.parse(doc.data["type"].toString())];
-    this.senderProfileId = doc.data["senderProfileId"];
-    this.recieverProfileId = doc.data["recieverProfileId"];
-    this.date = DateTime.parse(doc.data["date"].toString());
-    this.seen = doc.data["seen"];
+    this.id = doc.data()["id"];
+    this.type = MessageType.values[int.parse(doc.data()["type"].toString())];
+    this.senderProfileId = doc.data()["senderProfileId"];
+    this.recieverProfileId = doc.data()["recieverProfileId"];
+    this.date = DateTime.parse(doc.data()["date"].toString());
+    this.seen = doc.data()["seen"];
   }
 
   Map<String, dynamic> toJson() => {
@@ -36,7 +36,7 @@ abstract class Message {
 
 Message getMessage(DocumentSnapshot doc) {
   MessageType _type =
-      MessageType.values[int.parse(doc.data["type"].toString())];
+      MessageType.values[int.parse(doc.data()["type"].toString())];
   switch (_type) {
     case MessageType.text:
       return TextMessage.fromJson(doc);

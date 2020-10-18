@@ -142,9 +142,9 @@ class _TodoPageState extends State<TodoPage> {
 
   void _subscribeReminderStream() {
     _reminderSubscription = FirebaseFunctions.reminderStream.listen((qs) {
-      qs.documentChanges.forEach((doc) {
+      qs.docChanges.forEach((doc) {
         if (doc.type != DocumentChangeType.removed) {
-          Reminder reminder = new Reminder.fromJson(doc.document);
+          Reminder reminder = new Reminder.fromJson(doc.doc);
 
           if ([AppConfig.me.businessDocId, AppConfig.me.personalDocId].any(
             (id) {

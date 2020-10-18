@@ -11,7 +11,7 @@ class ImageMessage extends Message {
   }
 
   ImageMessage.fromJson(DocumentSnapshot doc) : super.fromJson(doc) {
-    this.imageUrl = doc.data["imageUrl"];
+    this.imageUrl = doc.data()["imageUrl"];
   }
 
   Map<String, dynamic> toJson() {

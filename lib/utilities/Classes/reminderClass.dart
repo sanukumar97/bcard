@@ -19,15 +19,15 @@ class Reminder {
 
   Reminder.fromJson(DocumentSnapshot doc) {
     this.ref = doc.reference;
-    this.id = doc.data["id"];
-    this.date = DateTime.parse(doc.data["date"].toString());
-    this.ownerId = doc.data["ownerId"];
-    this.description = doc.data["description"];
+    this.id = doc.data()["id"];
+    this.date = DateTime.parse(doc.data()["date"].toString());
+    this.ownerId = doc.data()["ownerId"];
+    this.description = doc.data()["description"];
     this.cardIds = List<String>.generate(
-        doc.data["cardIds"].length, (i) => doc.data["cardIds"][i]);
-    this.completed = doc.data["completed"] ?? false;
-    this.pinnedProfile = doc.data["pinnedProfile"];
-    this.color = colorDecoder(doc.data["color"].toString());
+        doc.data()["cardIds"].length, (i) => doc.data()["cardIds"][i]);
+    this.completed = doc.data()["completed"] ?? false;
+    this.pinnedProfile = doc.data()["pinnedProfile"];
+    this.color = colorDecoder(doc.data()["color"].toString());
   }
 
   Map<String, dynamic> toJson() => {

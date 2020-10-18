@@ -5,7 +5,7 @@ import 'package:bcard/utilities/Classes/userClass.dart';
 import 'package:bcard/utilities/connectivity.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:bcard/utilities/firebaseFunctions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -205,7 +205,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   SizedBox(height: 25),
                   GestureDetector(
                     onTap: () async {
-                      FirebaseUser _user =
+                      auth.User _user =
                           await FirebaseFunctions.googleSignIn();
                       if (_user != null) {
                         if (_signUp) {

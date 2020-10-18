@@ -13,9 +13,9 @@ class ReminderMessage extends Message {
   }
 
   ReminderMessage.fromJson(DocumentSnapshot doc) : super.fromJson(doc) {
-    this.reminderId = doc.data["reminderId"];
+    this.reminderId = doc.data()["reminderId"];
     this.status =
-        ReminderMessageStatus.values[int.parse(doc.data["status"].toString())];
+        ReminderMessageStatus.values[int.parse(doc.data()["status"].toString())];
   }
 
   Map<String, dynamic> toJson() {

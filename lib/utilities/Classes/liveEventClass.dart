@@ -10,9 +10,9 @@ class LiveEvent {
 
   LiveEvent.fromJson(DocumentSnapshot doc) {
     ref = doc.reference;
-    this.profileId = doc.data["profileId"].toString();
-    this.liveTag = doc.data["liveTag"].toString();
-    GeoPoint loc = doc.data["location"];
+    this.profileId = doc.data()["profileId"].toString();
+    this.liveTag = doc.data()["liveTag"].toString();
+    GeoPoint loc = doc.data()["location"];
     this.location = LatLng(loc.latitude, loc.longitude);
   }
 

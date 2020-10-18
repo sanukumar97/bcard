@@ -11,11 +11,11 @@ class ProfileVisitedNotification extends AppNotification {
 
   ProfileVisitedNotification.fromJson(DocumentSnapshot doc) {
     this.ref = doc.reference;
-    this.id = doc.data["id"];
+    this.id = doc.data()["id"];
     this.notificationType = NotificationType.visit;
-    this.senderProfileId = doc.data["senderProfileId"];
-    this.recieverProfileId = doc.data["recieverProfileId"];
-    this.date = DateTime.parse(doc.data["date"].toString());
+    this.senderProfileId = doc.data()["senderProfileId"];
+    this.recieverProfileId = doc.data()["recieverProfileId"];
+    this.date = DateTime.parse(doc.data()["date"].toString());
   }
 
   Map<String, dynamic> toJson() => {

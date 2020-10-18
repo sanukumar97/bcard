@@ -151,7 +151,7 @@ class _ReminderMessageTileState extends State<ReminderMessageTile> {
 
   Widget _reminderStatusWidget() {
     void _setStatus(ReminderMessageStatus status) {
-      widget.reminderMessage.ref.updateData({"status": status.index});
+      widget.reminderMessage.ref.update({"status": status.index});
     }
 
     return Container(

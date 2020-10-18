@@ -14,12 +14,12 @@ class ReminderNotification extends AppNotification {
 
   ReminderNotification.fromJson(DocumentSnapshot doc) {
     this.ref = doc.reference;
-    this.id = doc.data["id"];
+    this.id = doc.data()["id"];
     this.notificationType = NotificationType.reminder;
-    this.senderProfileId = doc.data["senderProfileId"];
-    this.recieverProfileId = doc.data["recieverProfileId"];
-    this.date = DateTime.parse(doc.data["date"].toString());
-    this.reminderId = doc.data["reminderId"];
+    this.senderProfileId = doc.data()["senderProfileId"];
+    this.recieverProfileId = doc.data()["recieverProfileId"];
+    this.date = DateTime.parse(doc.data()["date"].toString());
+    this.reminderId = doc.data()["reminderId"];
   }
 
   Map<String, dynamic> toJson() => {

@@ -6,7 +6,6 @@ import 'package:bcard/utilities/Constants/encodersAndDecoders.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:bcard/utilities/firebaseFunctions.dart';
-import 'package:bcard/utilities/localStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,7 +29,7 @@ class _ReminderOptionBottomSheetState extends State<ReminderOptionBottomSheet>
   bool _loaded = false;
 
   void _selectColor(Color color) {
-    widget.reminder.ref.updateData({"color": colorEncoder(color)});
+    widget.reminder.ref.update({"color": colorEncoder(color)});
     Navigator.pop(context);
   }
 

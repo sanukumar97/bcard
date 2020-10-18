@@ -37,7 +37,7 @@ class _RequestCardDialogState extends State<RequestCardDialog>
       if (docs.isNotEmpty) {
         docs.forEach((e) {
           if (!AppConfig.me.cardLibraries[3].profileIds.contains(e["id"]))
-            _profiles.add(new Profile.fromJson(e.data));
+            _profiles.add(new Profile.fromJson(e.data()));
         });
         setState(() {
           _loading = false;
