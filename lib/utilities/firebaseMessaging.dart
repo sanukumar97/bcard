@@ -2,8 +2,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AppMessaging {
   static final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-  static void init() {
-    _firebaseMessaging.requestNotificationPermissions();
+  static Future<void> init() async {
+    await _firebaseMessaging.requestNotificationPermissions();
     _firebaseMessaging.configure(
       //Called when app is in foreground
       onMessage: (Map<String, dynamic> message) async {
@@ -20,5 +20,12 @@ class AppMessaging {
         //_navigateToItemDetail(message);
       },
     );
+    _getTokenId();
+  }
+
+  static void _getTokenId() async {
+    await Future.delayed(Duration(seconds: 15));
+    String token = await _firebaseMessaging.getToken();
+    print(token);
   }
 }

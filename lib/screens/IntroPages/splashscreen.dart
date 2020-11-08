@@ -2,6 +2,7 @@ import 'package:bcard/screens/homepage.dart';
 import 'package:bcard/screens/IntroPages/introPage.dart';
 import 'package:bcard/utilities/connectivity.dart';
 import 'package:bcard/utilities/firebaseFunctions.dart';
+import 'package:bcard/utilities/firebaseMessaging.dart';
 import 'package:bcard/utilities/localStorage.dart';
 import 'package:bcard/utilities/location.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SplashScreen extends StatelessWidget {
   void init(BuildContext context) async {
     await FirebaseFunctions.init();
+    await AppMessaging.init();
     AppLocation.init();
     await AppConnectivity.init();
     await AppConfig.init();
