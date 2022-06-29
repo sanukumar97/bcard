@@ -585,8 +585,9 @@ class _DiscoverPageState extends State<DiscoverPage> {
                               _showProfileDetails(_currentProfiles[i]);
                               AppConfig.me.cardLibraries[0]
                                   .addProfile(_currentProfiles[i].id);
-                              FirebaseFunctions.visitProfile(
-                                  _currentProfiles[i].id);
+                              /* FirebaseFunctions.visitProfile(
+                                  _currentProfiles[i].id); */
+                              //TODO added above comment for v2.0
                             },
                             child: DiscoverProfileCard(_currentProfiles[i]),
                           ),

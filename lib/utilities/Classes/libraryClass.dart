@@ -36,26 +36,32 @@ class Library {
       };
 
   void addProfile(String profileId) {
-    int i = _profileIds.indexWhere((e) => e == profileId);
-    if (i >= 0) {
-      this._additionTime[i] = DateTime.now();
-      AppConfig.libraryUpdated();
-    } else {
-      this._profileIds.add(profileId);
-      this._additionTime.add(DateTime.now());
-      AppConfig.libraryUpdated();
+    if (profileId != null) {
+      int i = _profileIds.indexWhere((e) => e == profileId);
+      if (i >= 0) {
+        this._additionTime[i] = DateTime.now();
+        AppConfig.libraryUpdated();
+      } else {
+        this._profileIds.add(profileId);
+        this._additionTime.add(DateTime.now());
+        AppConfig.libraryUpdated();
+      }
     }
   }
 
   void removeProfile(List<String> profileIds) {
+    bool changeHappened = false;
     profileIds.forEach((id) {
       int index = _profileIds.indexWhere((profileId) => id == profileId);
       if (index >= 0) {
         _profileIds.removeAt(index);
         _additionTime.removeAt(index);
-        AppConfig.libraryUpdated();
+        changeHappened = true;
       }
     });
+    if (changeHappened) {
+      AppConfig.libraryUpdated();
+    }
   }
 
   List<DateTime> get additionTime => _additionTime;

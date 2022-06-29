@@ -4,19 +4,21 @@
       <rect id="Rectangle_279" data-name="Rectangle 279" width="114.764" height="114.763" fill="none"/>
     </clipPath>
   </defs>
-  <g id="Group_2574" data-name="Group 2574" transform="translate(4394 2457)">
-    <g id="Group_2573" data-name="Group 2573" transform="translate(19 238)">
-      <g id="Group_2252" data-name="Group 2252" transform="translate(-4519 -3762)">
-        <circle id="Ellipse_102" data-name="Ellipse 102" cx="72" cy="72" r="72" transform="translate(106 1067)" fill="#e5e8ee"/>
-      </g>
-      <g id="Group_571" data-name="Group 571" transform="translate(-4398.764 -2681)">
-        <g id="Group_567" data-name="Group 567">
-          <g id="Group_444" data-name="Group 444">
-            <ellipse id="Ellipse_40" data-name="Ellipse 40" cx="57.382" cy="57.382" rx="57.382" ry="57.382" fill="#3a3a3a"/>
+  <g id="Group_2572" data-name="Group 2572" transform="translate(4413 2695)">
+    <g id="Group_2252" data-name="Group 2252" transform="translate(-4519 -3762)">
+      <circle id="Ellipse_102" data-name="Ellipse 102" cx="72" cy="72" r="72" transform="translate(106 1067)" fill="#e5e8ee"/>
+    </g>
+    <g id="Group_571" data-name="Group 571" transform="translate(-4398.764 -2681)">
+      <g id="Group_567" data-name="Group 567">
+        <g id="Group_444" data-name="Group 444">
+          <ellipse id="Ellipse_40" data-name="Ellipse 40" cx="57.382" cy="57.382" rx="57.382" ry="57.382" fill="#3a3a3a"/>
+          <g id="Group_449" data-name="Group 449">
+            <g id="Group_448" data-name="Group 448" clip-path="url(#clip-path)">
+              <path id="Path_166" data-name="Path 166" d="M2626.343-5876.371h13.194V-5908.3h8.8l1.166-11h-9.967l.015-5.508c0-2.87.272-4.408,4.39-4.408h5.5v-11.007h-8.8c-10.576,0-14.295,5.34-14.295,14.316v6.606h-6.592v11.007h6.592v31.93Z" transform="translate(-2577.246 5965.683)" fill="#fff"/>
+            </g>
           </g>
         </g>
       </g>
     </g>
-    <path id="Path_2087" data-name="Path 2087" d="M81.176,71.308l6.37,6.577H61.012l6.681-6.577.028-26.987C62.962,55.044,58.585,67.43,53.813,78.129H52l-16.282-35.3v25.1l8.386,10.195H23.717L32.33,67.934l-.453-30.529-7.029-8.367H43.41L57.2,58.888l12.211-29.85H87.885c-2.761,3.986-5.055,7.3-6.709,9.686Z" transform="translate(-4377.822 -2438.354)" fill="#fff"/>
   </g>
 </svg>

@@ -1,11 +1,18 @@
+import 'package:bcard/screens/NotificationTab/notificationPage.dart';
 import 'package:bcard/screens/ProfileTab/profilePageDetails.dart';
 import 'package:bcard/screens/ProfileTab/settings.dart';
+import 'package:bcard/utilities/Classes/NotificationClasses/notificationClass.dart';
+import 'package:bcard/utilities/Classes/profileClass.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:bcard/utilities/localStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePage extends StatefulWidget {
+  final Function(Profile) showProfile;
+
+  ProfilePage(this.showProfile);
+
   final _ProfilePageState _profilePageState = new _ProfilePageState();
 
   void reload() {
@@ -24,10 +31,22 @@ class _ProfilePageState extends State<ProfilePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _currentIndex = AppConfig.currentSelectedProfile;
   bool _edit = false;
+  bool _searchDialogOpen = false;
+
+  void _searchDialogOpened() {
+    _searchDialogOpen = true;
+  }
+
+  void _searchDialogClosed() {
+    _searchDialogOpen = false;
+  }
 
   bool goBack() {
     if (_edit) {
       _stopEditing();
+      return false;
+    } else if (_searchDialogOpen) {
+      Navigator.pop(context);
       return false;
     } else {
       return true;
@@ -61,6 +80,34 @@ class _ProfilePageState extends State<ProfilePage> {
       _edit = false;
     });
     AppConfig.saveChanges();
+  }
+
+  void _showNotificationBottomSheet() {
+    void _newNotification() {}
+    void _addReminder(String reminderId) {}
+
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: color2,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        decoration: BoxDecoration(
+          color: color2,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: NotificationPage(
+            _newNotification, _addReminder, widget.showProfile),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+    );
+    AppConfig.newNotification.value = false;
   }
 
   @override
@@ -106,6 +153,11 @@ class _ProfilePageState extends State<ProfilePage> {
               )
             : GestureDetector(
                 onTap: () {
+                  if (!FocusScope.of(context).hasPrimaryFocus &&
+                      FocusScope.of(context).focusedChild != null) {
+                    print("Has Focus");
+                    FocusManager.instance.primaryFocus.unfocus();
+                  }
                   _scaffoldKey.currentState.openDrawer();
                 },
                 child: Container(
@@ -121,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: _edit
             ? <Widget>[]
             : <Widget>[
-                Stack(
+                /* Stack(
                   children: [
                     IconButton(
                       icon: Container(
@@ -151,6 +203,54 @@ class _ProfilePageState extends State<ProfilePage> {
                           )
                         : SizedBox()
                   ],
+                ), */
+                //TODO added above comment for v2.0
+
+                //TODO Below icon is added for v2.0
+                ValueListenableBuilder<Map<String, List<AppNotification>>>(
+                  valueListenable: AppConfig.notifications,
+                  builder: (context, notifications, child) {
+                    return IconButton(
+                      icon: Stack(
+                        children: [
+                          ValueListenableBuilder<bool>(
+                            valueListenable: AppConfig.newNotification,
+                            builder: (context, newNotification, child) {
+                              if (newNotification)
+                                return SvgPicture.asset(
+                                  "assets/icons/notification1_with_dot.svg",
+                                  height: 20,
+                                  width: 20,
+                                );
+                              else
+                                return SvgPicture.asset(
+                                  "assets/icons/notification1.svg",
+                                  height: 20,
+                                  width: 20,
+                                );
+                            },
+                          ),
+                          /* AppConfig.newNotification
+                              ? Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: Container(
+                                    height: 8,
+                                    width: 8,
+                                    decoration: BoxDecoration(
+                                      color: color4,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(), */
+                        ],
+                      ),
+                      onPressed: () {
+                        _showNotificationBottomSheet();
+                      },
+                    );
+                  },
                 ),
               ],
       ),
@@ -176,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
+              /* Padding(
                 padding: EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -246,7 +346,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
-              ),
+              ), */
+              //TODO Commented above part for v2.0, Here only one type of profile is present
+              SizedBox(height: 15),
               _nextBody(),
             ],
           ),
@@ -257,12 +359,23 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _nextBody() {
-    if (_currentIndex == 0) {
+    return ProfilePageDetails(
+      AppConfig.me.businessProfile,
+      _startEditing,
+      _edit,
+      showErrorMessage,
+      _searchDialogOpened,
+      _searchDialogClosed,
+    );
+
+    //TODO For v2.0, above return statement is added and below if-else condition is commented
+
+    /* if (_currentIndex == 0) {
       return ProfilePageDetails(
           AppConfig.me.businessProfile, _startEditing, _edit, showErrorMessage);
     } else {
       return ProfilePageDetails(
           AppConfig.me.personalProfile, _startEditing, _edit, showErrorMessage);
-    }
+    } */
   }
 }

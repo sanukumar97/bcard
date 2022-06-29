@@ -6,17 +6,26 @@ import 'package:bcard/utilities/localStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReportProfileDialog extends StatelessWidget {
   final Profile profile;
   TextEditingController _controller = new TextEditingController();
   ReportProfileDialog(this.profile);
 
-  void _report(BuildContext context) {
+  void _report(BuildContext context) async {
     if (_controller.value.text.isNotEmpty) {
       Report report = new Report(
           profile.id, AppConfig.currentProfile.id, _controller.value.text);
       FirebaseFunctions.reportProfile(report);
+      String profileLink = await FirebaseFunctions.getProfileUrl(profile.id);
+      String shareText = '''Report Profile
+Profile Name: ${profile.userName ?? ""}
+Profile Link: $profileLink
+
+Message: ${_controller.value.text}''';
+      String whatsAppUrl = "https://wa.me/+919801047282?text=$shareText";
+      launch(whatsAppUrl);
       appToast("Profile Reported.", context, color: color4);
       Navigator.pop(context);
     } else {

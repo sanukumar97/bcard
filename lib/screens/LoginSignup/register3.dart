@@ -55,6 +55,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       },
       child: SafeArea(
         child: new Scaffold(
+          key: _scaffoldKey,
           backgroundColor: Color(0xffE6EbEF),
           appBar: AppBar(
             leading: IconButton(
@@ -308,9 +309,12 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                     setState(() {
                                       _registering = true;
                                     });
-                                    if (await FirebaseFunctions
-                                        .checkEmailExists(
-                                            _emailController.value.text)) {
+                                    if ((_emailController
+                                                .value.text?.isNotEmpty ??
+                                            false) &&
+                                        await FirebaseFunctions
+                                            .checkEmailExists(
+                                                _emailController.value.text)) {
                                       _showErrorMessage(
                                           "Email already exists! Please Log In.");
                                     } else {
@@ -329,10 +333,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                           builder: (context) => HomePage(),
                                         ),
                                       );
-                                      setState(() {
-                                        _registering = false;
-                                      });
                                     }
+                                    setState(() {
+                                      _registering = false;
+                                    });
                                   }
                                 },
                           child: Opacity(

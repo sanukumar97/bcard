@@ -37,14 +37,14 @@ class ProfileTile extends StatelessWidget {
                     softWrap: true,
                     style: myTs(
                         color: textColor ?? color5,
-                        size: 12,
+                        size: 18,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
                 Text(
                   _profile.occupation ?? "Occupation",
                   overflow: TextOverflow.ellipsis,
-                  style: myTs(color: textColor ?? color5, size: 11),
+                  style: myTs(color: textColor ?? color5, size: 16),
                 ),
               ],
             ),

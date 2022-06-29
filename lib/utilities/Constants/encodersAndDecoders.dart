@@ -69,18 +69,23 @@ String addHandleHeader(String handle, int index) {
       return "instagram.com/$handle/";
       break;
     case 1:
-      return "behance.net/$handle";
+      return "wa.me/91$handle";
       break;
     case 2:
-      return "linkedin.com/$handle/";
+      return "behance.net/$handle";
       break;
     case 3:
-      return "facebook.com/$handle/";
+      return "linkedin.com/$handle/";
       break;
     case 4:
-      return "medium.com/@$handle";
+      return "facebook.com/$handle/";
       break;
+
     default:
       return "";
   }
+}
+
+String makeFirstLetterUpperCase(String name) {
+  return name[0].toUpperCase() + name.substring(1);
 }

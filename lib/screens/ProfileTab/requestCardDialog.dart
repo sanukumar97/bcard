@@ -1,5 +1,4 @@
 import 'package:bcard/screens/ProfileTab/profileTile.dart';
-import 'package:bcard/utilities/Classes/MessageClasses/textMessageClass.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:bcard/utilities/firebaseFunctions.dart';
@@ -35,9 +34,12 @@ class _RequestCardDialogState extends State<RequestCardDialog>
       List<DocumentSnapshot> docs =
           await FirebaseFunctions.discoverProfiles([_controller.value.text], i);
       if (docs.isNotEmpty) {
-        docs.forEach((e) {
-          if (!AppConfig.me.cardLibraries[3].profileIds.contains(e["id"]))
-            _profiles.add(new Profile.fromJson(e.data()));
+        docs.forEach((doc) {
+          print(doc.data()["profileType"]);
+          if (!AppConfig.me.cardLibraries[3].profileIds
+                  .contains(doc.data()["id"]) &&
+              !_profiles.any((pf) => pf.id == doc.data()["id"]))
+            _profiles.add(new Profile.fromJson(doc.data()));
         });
         setState(() {
           _loading = false;
@@ -65,11 +67,13 @@ class _RequestCardDialogState extends State<RequestCardDialog>
         _sending = true;
       });
       if (_selectedProfile.profileStatus == ProfileStatus.requested) {
-        await FirebaseFunctions.requestProfile(_selectedProfile);
+        await FirebaseFunctions.requestProfile(
+            _selectedProfile, _messageController.value.text);
       }
-      TextMessage textMessage = new TextMessage(AppConfig.currentProfile.id,
+      /* TextMessage textMessage = new TextMessage(AppConfig.currentProfile.id,
           _selectedProfile.id, _messageController.value.text);
-      await FirebaseFunctions.sendMessage(textMessage);
+      await FirebaseFunctions.sendMessage(textMessage); */
+      //TODO Added above comment for v2.0 as there is no chat option in v2.0
       setState(() {
         _sending = false;
       });
@@ -82,10 +86,15 @@ class _RequestCardDialogState extends State<RequestCardDialog>
 
   void _notNowTapped() async {
     if (_selectedProfile.profileStatus == ProfileStatus.requested) {
-      await FirebaseFunctions.requestProfile(_selectedProfile);
+      await FirebaseFunctions.requestProfile(_selectedProfile, "");
       appToast("Request Sent", context, color: color4);
     }
     Navigator.pop(context, true);
+  }
+
+  void _openProfile(Profile profile) {
+    Navigator.pop(context);
+    openProfile(profile.id);
   }
 
   @override
@@ -110,22 +119,18 @@ class _RequestCardDialogState extends State<RequestCardDialog>
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    return AlertDialog(
-      backgroundColor: color2,
-      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 15),
-      actionsPadding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      content: Container(
-        height: size.height * (_page == 0 ? 0.4 : 0.6),
-        child: PageView(
-          controller: _pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            _searchProileWidget(),
-            _sendRequestWidget(),
-          ],
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: color2,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: PageView(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          _searchProileWidget(),
+          _sendRequestWidget(),
+        ],
       ),
     );
   }
@@ -135,6 +140,14 @@ class _RequestCardDialogState extends State<RequestCardDialog>
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
+          padding: EdgeInsets.only(top: 10, bottom: 7),
+          child: Text(
+            "Search New Connections",
+            style: myTs(color: color5, size: 16),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -148,26 +161,36 @@ class _RequestCardDialogState extends State<RequestCardDialog>
             decoration: InputDecoration(
               suffixIconConstraints:
                   BoxConstraints(maxHeight: 20, maxWidth: 20),
-              suffixIcon: _controller.value.text.isNotEmpty && !_loading
-                  ? GestureDetector(
-                      onTap: _searchProfiles,
-                      child: Container(
-                        child: SvgPicture.asset(
-                          "assets/icons/search.svg",
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    )
-                  : null,
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
               focusedErrorBorder: InputBorder.none,
               isDense: true,
-              hintText: "Search usernames",
+              hintText: "Search by username",
               hintStyle: myTs(color: color5, size: 15),
             ),
+          ),
+        ),
+        GestureDetector(
+          onTap: _searchProfiles,
+          child: Container(
+            alignment: Alignment.center,
+            width: double.maxFinite,
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+              color: color4,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              "Search",
+              style: myTs(color: color2, size: 15, fontWeight: FontWeight.bold),
+            ) /* SvgPicture.asset(
+                          "assets/icons/search.svg",
+                          fit: BoxFit.contain,
+                        ) */
+            ,
           ),
         ),
         Divider(
@@ -177,7 +200,7 @@ class _RequestCardDialogState extends State<RequestCardDialog>
           color: color1.withOpacity(0.4),
         ),
         Container(
-          height: 150,
+          //height: 150,
           child: _profiles.isEmpty || _loading || _noProfilesFound
               ? Container(
                   alignment: Alignment.center,
@@ -186,7 +209,7 @@ class _RequestCardDialogState extends State<RequestCardDialog>
                         ? "Searching Profiles"
                         : _noProfilesFound
                             ? "No Profiles Found !"
-                            : "Search Profiles above.",
+                            : "",
                     style: myTs(color: color5, size: 18),
                   ),
                 )
@@ -200,27 +223,36 @@ class _RequestCardDialogState extends State<RequestCardDialog>
                   itemCount: _profiles.length,
                   separatorBuilder: (context, index) => SizedBox(height: 15),
                   itemBuilder: (context, i) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: ProfileTile(
-                            _profiles[i],
-                            /* logoHeight: size.width * 0.15,
+                    return GestureDetector(
+                      onTap: () {
+                        _openProfile(_profiles[i]);
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ProfileTile(
+                              _profiles[i],
+                              /* logoHeight: size.width * 0.15,
                               logoWidth: size.width * 0.15, */
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          icon: SvgPicture.asset(
-                            "assets/icons/send.svg",
-                            height: 20,
-                            width: 20,
-                            fit: BoxFit.contain,
-                          ),
-                          onPressed: () {
-                            _selectProfile(_profiles[i]);
-                          },
-                        ),
-                      ],
+                          _profiles[i].profileStatus == ProfileStatus.requested
+                              ? RaisedButton(
+                                  child: Text(
+                                    "Connect",
+                                    style: myTs(color: color4),
+                                  ),
+                                  onPressed: () {
+                                    _selectProfile(_profiles[i]);
+                                  },
+                                  color: color3,
+                                  elevation: 0.0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
                     );
                   },
                 ),
@@ -231,7 +263,7 @@ class _RequestCardDialogState extends State<RequestCardDialog>
 
   Widget _sendRequestWidget() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -254,18 +286,20 @@ class _RequestCardDialogState extends State<RequestCardDialog>
             thickness: 0.1,
             color: color5.withOpacity(0.5),
           ),
-          TextFormField(
-            controller: _messageController,
-            style: myTs(color: color5, size: 16),
-            cursorColor: color5,
-            minLines: 5,
-            maxLines: 5,
-            decoration: InputDecoration(
-              hintText: "Type a message",
-              hintStyle: myTs(color: Colors.grey.withOpacity(0.7), size: 16),
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
+          Container(
+            child: TextFormField(
+              controller: _messageController,
+              style: myTs(color: color5, size: 16),
+              cursorColor: color5,
+              minLines: 5,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: "Type a message",
+                hintStyle: myTs(color: Colors.grey.withOpacity(0.7), size: 16),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+              ),
             ),
           ),
           Spacer(),

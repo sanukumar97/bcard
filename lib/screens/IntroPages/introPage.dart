@@ -37,7 +37,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
       renderDoneBtn: _doneButton,
       onDonePress: _onDonePress,
       slides: List<Slide>.generate(
-        7,
+        4,
         (i) => Slide(
           backgroundImage: "assets/images/intro/intro${i + 1}.jpg",
           backgroundImageFit: BoxFit.fill,

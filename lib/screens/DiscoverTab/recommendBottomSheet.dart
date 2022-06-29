@@ -145,15 +145,19 @@ class _RecommendBottomSheetState extends State<RecommendBottomSheet> {
                         textColor: color5,
                       ),
                     ),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        "assets/icons/recommend.svg",
-                        fit: BoxFit.contain,
+                    RaisedButton(
+                      child: Text(
+                        "Recommend",
+                        style: myTs(color: color4,size: 12),
                       ),
+                      elevation: 0.0,
+                      padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                       onPressed: () {
                         _sendRecommendation(_queryProfiles[i]);
                       },
-                      color: color5,
+                      color: color3,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
                     )
                   ],
                 );

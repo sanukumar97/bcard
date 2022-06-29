@@ -21,18 +21,20 @@ class _ProfileRecommendationTileState extends State<ProfileRecommendationTile> {
   bool _loaded = false;
 
   void _getDetails() async {
-    List<Profile> list = await FirebaseFunctions.getProfiles([
-      widget.recommend.senderProfileId,
-      widget.recommend.recommendedProfileId
-    ]);
-    _senderprofile = list.firstWhere(
-        (prf) => prf.id == widget.recommend.senderProfileId,
-        orElse: () => null);
-    _recommendedProfile = list.firstWhere(
-        (prf) => prf.id == widget.recommend.recommendedProfileId,
-        orElse: () => null);
-    _loaded = true;
-    if (this.mounted) setState(() {});
+    if (!_loaded) {
+      List<Profile> list = await FirebaseFunctions.getProfiles([
+        widget.recommend.senderProfileId,
+        widget.recommend.recommendedProfileId
+      ]);
+      _senderprofile = list.firstWhere(
+          (prf) => prf.id == widget.recommend.senderProfileId,
+          orElse: () => null);
+      _recommendedProfile = list.firstWhere(
+          (prf) => prf.id == widget.recommend.recommendedProfileId,
+          orElse: () => null);
+      _loaded = true;
+      if (this.mounted) setState(() {});
+    }
   }
 
   @override

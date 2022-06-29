@@ -1,138 +1,179 @@
-import 'package:bcard/screens/ChatTab/chatPage.dart';
+//import 'package:bcard/screens/ChatTab/chatPage.dart';
 import 'package:bcard/screens/LibraryTab/cardsPage.dart';
-import 'package:bcard/screens/NotificationTab/notificationPage.dart';
+//import 'package:bcard/screens/NotificationTab/notificationPage.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
 import 'package:flutter/services.dart';
-import 'DiscoverTab/discoverPage.dart';
 import 'package:bcard/screens/ProfileTab/profilePage.dart';
-import 'package:bcard/screens/TodoTab/todoPage.dart';
+//import 'package:bcard/screens/TodoTab/todoPage.dart';
 import 'package:bcard/utilities/connectivity.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomePage extends StatefulWidget {
+  final String initialProfileId;
+
+  HomePage({this.initialProfileId});
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 2;
-  DiscoverPage _discoverPage = new DiscoverPage();
-  CardPage _cardPage = new CardPage();
-  ProfilePage _profilePage = new ProfilePage();
-  NotificationPage _notificationPage;
-  TodoPage _todoPage = new TodoPage();
-  ChatPage _chatPage;
+  int _currentIndex = 1;
+  //DiscoverPage _discoverPage = new DiscoverPage();
+  //TODO added above comment for v2.0
+  CardPage _cardPage;
+  ProfilePage _profilePage;
+  //NotificationPage _notificationPage;
+  //TODO added above comment for v2.0
+  //TodoPage _todoPage;
+  //TODO added above comment for v2.0
+  //ChatPage _chatPage;
+  //TODO added above comment for v2.0
   bool _newNotification = false;
   bool _insideChatPage = false;
 
   void addReminder(String reminderId) {
-    _todoPage.addReminder(reminderId);
+    //_todoPage.addReminder(reminderId);
+    //TODO added above comment for v2.0
   }
 
   void newNotification() {
-    if (_currentIndex != 3)
+    /* if (_currentIndex != 3)
       setState(() {
         _newNotification = true;
-      });
+      }); */
+    //TODO added above comment for v2.0
   }
 
   void goBack() {
     if (_insideChatPage) {
-      _chatPage.goBack();
+      //_chatPage.goBack();
+      //TODO added above comment for v2.0
     } else {
+      //TODO swap 1 and 2 indexes wherever necessary, by testing all types of test cases, This was done for v2.0
       switch (_currentIndex) {
-        case 0:
+        /* case 0:
           if (_discoverPage.goBack()) {
             setState(() {
-              _currentIndex = 2;
+              _currentIndex = 1;
+            });
+          }
+          break; */
+        //TODO added above comment for v2.0
+        case 0:
+          if (_cardPage.goBack()) {
+            setState(() {
+              _currentIndex = 1;
             });
           }
           break;
         case 1:
-          if (_cardPage.goBack()) {
-            setState(() {
-              _currentIndex = 2;
-            });
-          }
-          break;
-        case 2:
           if (_profilePage.goBack()) {
             SystemNavigator.pop();
           }
           break;
-        case 3:
+        /* case 3:
           if (_notificationPage.goBack()) {
             setState(() {
               _currentIndex = 2;
             });
           }
-          break;
-        case 4:
+          break; */
+        //TODO added above comment for v2.0
+        /* case 4:
           if (_todoPage.goBack()) {
             setState(() {
               _currentIndex = 2;
             });
           }
-          break;
+          break; */
+        //TODO added above comment for v2.0
         default:
       }
     }
   }
 
   void _reloadChatPage() {
-    _chatPage.reload();
+    //_chatPage.reload();
+    //TODO added above comment for v2.0
   }
 
   void _closeChat() {
-    setState(() {
+    /* setState(() {
       _insideChatPage = false;
-    });
+    }); */
+    //TODO added above comment for v2.0
   }
 
-  void _goToTodoPage(String reminderId) {
+  /* void _goToTodoPage(String reminderId) {
     setState(() {
       _currentIndex = 4;
     });
     _todoPage.openReminder(reminderId);
-  }
+  } */
+  //TODO added above comment for v2.0
 
   void _openChat({String recieverProfileId}) {
-    setState(() {
+    /* setState(() {
       _insideChatPage = true;
       _chatPage.openedChat();
       _reloadAllTabs();
     });
-    if (recieverProfileId != null) _chatPage.startChat(recieverProfileId);
+    if (recieverProfileId != null) _chatPage.startChat(recieverProfileId); */
+    //TODO added above comment for v2.0
   }
 
   void _reloadAllTabs() {
-    _discoverPage.reload();
+    //_discoverPage.reload();
+    //TODO added above comment for v2.0
     _cardPage.reload();
     _profilePage.reload();
-    _notificationPage.reload();
-    _todoPage.reload();
+    //_notificationPage.reload();
+    //TODO added above comment for v2.0
+    //_todoPage.reload();
+    //TODO added above comment for v2.0
   }
 
   void _newMessage(ProfileType profileType) {
-    if (!_insideChatPage) {
+    /* if (!_insideChatPage) {
       setState(() {
         setNewMessage(profileType, true);
         _reloadAllTabs();
       });
-    }
+    } */
+    //TODO added above comment for v2.0
+  }
+
+  void _openProfile(String profileId) {
+    setState(() {
+      _currentIndex = 0;
+      _cardPage.openProfile(profileId);
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    if (widget.initialProfileId != null) {
+      _currentIndex = 0;
+    }
+    _cardPage = new CardPage(initialProfileId: widget.initialProfileId);
+    _profilePage = new ProfilePage((Profile profile) {
+      _openProfile(profile.id);
+    });
     openChat = _openChat;
     goBackFromChatPage = _closeChat;
     reloadChatPage = _reloadChatPage;
-    goToTodoPage = _goToTodoPage;
-    _notificationPage = new NotificationPage(newNotification, addReminder);
-    _chatPage = new ChatPage(_newMessage);
+    openProfile = _openProfile;
+    //goToTodoPage = _goToTodoPage;
+    //TODO added above comment for v2.0
+    //_notificationPage = new NotificationPage(newNotification, addReminder);
+    //TODO added above comment for v2.0
+    //_chatPage = new ChatPage(_newMessage);
+    //TODO added above comment for v2.0
+    //_todoPage = new TodoPage();
+    //TODO added above comment for v2.0
   }
 
   @override
@@ -148,12 +189,16 @@ class _HomePageState extends State<HomePage> {
           body: IndexedStack(
             index: _insideChatPage ? 5 : _currentIndex,
             children: [
-              _discoverPage,
+              //_discoverPage,
+              //TODO added above comment for v2.0
               _cardPage,
               _profilePage,
-              _notificationPage,
-              _todoPage,
-              _chatPage
+              //_notificationPage,
+              //TODO added above comment for v2.0
+              //_todoPage,
+              //TODO added above comment for v2.0
+              //_chatPage
+              //TODO added above comment for v2.0
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -162,16 +207,22 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 if (_insideChatPage)
                   _insideChatPage = false;
-                else if (_currentIndex == 0 && value == 0) {
+                /* else if (_currentIndex == 0 && value == 0) {
                   _discoverPage.goBack();
-                } else if (_currentIndex == 1 && value == 1) {
+                } */
+                //TODO added above comment for v2.0
+                else if (_currentIndex == 0 && value == 0) {
                   _cardPage.goBack();
-                } else if (_currentIndex == 3 && value == 3) {
-                  _notificationPage.goBack();
                 }
+                /* else if (_currentIndex == 3 && value == 3) {
+                  _notificationPage.goBack();
+                } */
+                //TODO added above comment for v2.0
                 _currentIndex = value;
-                if (value == 3 && _newNotification) _newNotification = false;
-                if (value == 4) _todoPage.pageOpened();
+                //if (value == 3 && _newNotification) _newNotification = false;
+                //TODO added above comment for v2.0
+                //if (value == 4) _todoPage.pageOpened();
+                //TODO added above comment for v2.0
               });
             },
             backgroundColor: color1,
@@ -182,7 +233,7 @@ class _HomePageState extends State<HomePage> {
             iconSize: 20,
             showUnselectedLabels: true,
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
+              /* BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   "assets/icons/discover_ns.svg",
                   height: 20,
@@ -194,34 +245,36 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 label: "Discover",
+              ), */
+              //TODO added above comment for v2.0
+
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/icons/cards1_ns.svg",
+                  height: 25,
+                  width: 25,
+                ),
+                activeIcon: SvgPicture.asset(
+                  "assets/icons/cards1.svg",
+                  height: 25,
+                  width: 25,
+                ),
+                label: "Card Library",
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  "assets/icons/cards_ns.svg",
-                  height: 20,
-                  width: 20,
+                  "assets/icons/profile2_ns.svg",
+                  height: 25,
+                  width: 25,
                 ),
                 activeIcon: SvgPicture.asset(
-                  "assets/icons/cards.svg",
-                  height: 20,
-                  width: 20,
+                  "assets/icons/profile2.svg",
+                  height: 25,
+                  width: 25,
                 ),
-                label: "Cards",
+                label: "Home",
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/icons/profile_ns1.svg",
-                  height: 30,
-                  width: 30,
-                ),
-                activeIcon: SvgPicture.asset(
-                  "assets/icons/profile1.svg",
-                  height: 30,
-                  width: 30,
-                ),
-                label: "",
-              ),
-              BottomNavigationBarItem(
+              /* BottomNavigationBarItem(
                 icon: Stack(
                   children: [
                     SvgPicture.asset(
@@ -251,8 +304,9 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 label: "Notification",
-              ),
-              BottomNavigationBarItem(
+              ), */
+              //TODO added above comment for v2.0
+              /* BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   "assets/icons/todo_ns.svg",
                   height: 20,
@@ -264,7 +318,8 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 label: "To do",
-              ),
+              ), */
+              //TODO added above comment for v2.0
             ],
           ),
         ),

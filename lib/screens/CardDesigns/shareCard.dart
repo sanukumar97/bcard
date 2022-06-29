@@ -1,7 +1,9 @@
 import 'package:bcard/screens/CardDesigns/verticalCardDesign.dart';
 import 'package:bcard/screens/CardDesigns/horizantalCardDesign.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
+import 'package:bcard/utilities/Constants/encodersAndDecoders.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
+import 'package:bcard/utilities/firebaseFunctions.dart';
 import 'package:bcard/utilities/localStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,13 +27,16 @@ class ShareDialog extends StatelessWidget {
     final directory = (await getExternalStorageDirectory()).path;
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
-    String name = '$directory/${DateTime.now().toIso8601String()}.png';
-    File imgFile = new File(name);
+    String imgFilePath = '$directory/${DateTime.now().toIso8601String()}.png';
+    File imgFile = new File(imgFilePath);
     await imgFile.writeAsBytes(pngBytes);
-    Share.shareFiles([name],
+    String url = await FirebaseFunctions.getProfileUrl(_profile.id);
+    Share.shareFiles([imgFilePath],
             subject: 'Screenshot + Share',
-            text:
-                "Heyy, ${AppConfig.me.name} recommend you a connection. \n\n Install the app from: https://play.google.com/store/apps/details?id=com.peoplecard.app")
+            text: '''Heyy
+${makeFirstLetterUpperCase(AppConfig.me.businessProfile.userName)} recommend you a connection.
+
+Follow this link to visit the profile: $url''')
         .catchError((e) {
       print("Error while sharing card $e");
       appToast("An Error occured", context);
@@ -136,9 +141,8 @@ class ShareDialog extends StatelessWidget {
                             ),
                           ),
                         ),
-                        _profile.cardStructure == CardStructure.horizantal
-                            ? HorizantalCard(_profile, false, () {}, (s) {})
-                            : VerticalCard(_profile, false, () {}, (s) {}),
+                        HorizantalCard(_profile, false, () {}, (s) {},
+                            isMine: _profile.id == AppConfig.me.businessDocId),
                         SizedBox(height: 5),
                         _customTagsGridView(size),
                         SizedBox(height: 10),

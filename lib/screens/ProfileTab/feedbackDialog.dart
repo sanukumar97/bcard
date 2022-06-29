@@ -4,15 +4,22 @@ import 'package:bcard/utilities/firebaseFunctions.dart';
 import 'package:bcard/utilities/localStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FeedBackDialog extends StatelessWidget {
-  TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = new TextEditingController();
 
   void _submit(BuildContext context) {
     if (_controller.value.text.isNotEmpty) {
-      TextMessage message = new TextMessage(
+      /* TextMessage message = new TextMessage(
           AppConfig.currentProfile.id, adminProfileId, _controller.value.text);
-      FirebaseFunctions.sendMessage(message);
+      FirebaseFunctions.sendMessage(message); */
+      //TODO Above code is commentted for v2.0, above code sends message directly through app, while below code sends message through WhatsApp
+      /* String whatsAppUrl =
+          "https://wa.me/+919801047282?text=${_controller.value.text}"; */
+      String playStoreUrl =
+          "https://play.google.com/store/apps/details?id=com.peoplecard.app";
+      launch(playStoreUrl);
       Navigator.pop(context);
     } else {
       appToast("Please enter some feedback message", context,

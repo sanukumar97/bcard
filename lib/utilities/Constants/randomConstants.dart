@@ -10,6 +10,7 @@ Function({String recieverProfileId}) openChat;
 Function() goBackFromChatPage;
 Function() reloadChatPage;
 Function(String reminderId) goToTodoPage;
+Function(String profileId) openProfile;
 bool _newMessageBus = false, _newMessagePers = false;
 
 bool get newMessage {

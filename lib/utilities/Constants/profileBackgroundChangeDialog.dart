@@ -118,7 +118,7 @@ class _ProfileBackGroundChangeDialogState
                 ),
               ),
             ),
-            Row(
+            /* Row(
               children: [
                 Expanded(
                   child: GestureDetector(
@@ -194,14 +194,16 @@ class _ProfileBackGroundChangeDialogState
                   ),
                 ),
               ],
-            ),
+            ), */
+            //TODO Commented above widget for v2.0
+
             Container(
               height: size.width * 0.6 * 11 / 7 + 20,
               width: size.width * 0.6 + 20,
               padding: EdgeInsets.all(20),
               child: Container(
-                height: size.width * 0.6 * (isHorizontal ? 7 / 11 : 11 / 7),
-                width: size.width * 0.6,
+                height: size.width * 0.5 * (isHorizontal ? 7 / 11 : 11 / 7),
+                width: size.width * 0.5,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: backgroundUrl == null
@@ -283,6 +285,13 @@ class _ProfileBackGroundChangeDialogState
                     }
                   },
                 ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                
               ],
             ),
             SizedBox(height: 10),
@@ -428,13 +437,16 @@ class _ProfileBackGroundChangeDialogState
               ],
             ),
             SizedBox(height: 10),
-            Divider(
+
+            /* Divider(
               color: color5,
               indent: 10,
               endIndent: 10,
               thickness: 0.1,
-            ),
-            Column(
+            ), */
+            //TODO Commented above widget for v2.0
+
+            /* Column(
               children: [
                 Container(
                   alignment: Alignment.center,
@@ -498,7 +510,8 @@ class _ProfileBackGroundChangeDialogState
                   ],
                 ),
               ],
-            ),
+            ), */
+            //TODO Commented above widget for v2.0
           ],
         ),
       ),

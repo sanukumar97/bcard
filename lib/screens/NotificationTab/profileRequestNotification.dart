@@ -23,11 +23,13 @@ class _ProfileRequestTileState extends State<ProfileRequestTile> {
   bool _loaded = false, _loading = false;
 
   void _getDetails() async {
-    _senderprofile =
-        await FirebaseFunctions.getProfile(widget.request.senderProfileId);
+    if (!_loaded) {
+      _senderprofile =
+          await FirebaseFunctions.getProfile(widget.request.senderProfileId);
 
-    _loaded = true;
-    if (this.mounted) setState(() {});
+      _loaded = true;
+      if (this.mounted) setState(() {});
+    }
   }
 
   void _acceptProfileRequest() async {
@@ -41,7 +43,9 @@ class _ProfileRequestTileState extends State<ProfileRequestTile> {
       if (this.mounted)
         setState(() {
           _loading = false;
+          widget.request.status = RequestStatus.accepted;
         });
+      AppConfig.me.cardLibraries[0].addProfile(widget.request.senderProfileId);
     }
   }
 
@@ -56,6 +60,7 @@ class _ProfileRequestTileState extends State<ProfileRequestTile> {
       if (this.mounted)
         setState(() {
           _loading = false;
+          widget.request.status = RequestStatus.rejected;
         });
     }
   }
@@ -78,11 +83,11 @@ class _ProfileRequestTileState extends State<ProfileRequestTile> {
             }
           : null,
       child: Container(
-        height: 100,
+        //height: 100,
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: _loaded
             ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
@@ -205,6 +210,18 @@ class _ProfileRequestTileState extends State<ProfileRequestTile> {
                                       ),
                                     ],
                         ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            (widget.request.message ?? ""),
+                            style: myTs(
+                              color: color5.withOpacity(0.3),
+                            ),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(height: 10),
                         Container(
                           alignment: Alignment.bottomRight,
                           child: Text(

@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:bcard/utilities/Classes/MessageClasses/messageClass.dart';
 import 'package:bcard/utilities/Classes/NotificationClasses/profileRequestNotificationClass.dart';
-import 'package:bcard/utilities/Classes/NotificationClasses/profileVisitedNotificationClass.dart';
+//import 'package:bcard/utilities/Classes/NotificationClasses/profileVisitedNotificationClass.dart';
 import 'package:bcard/utilities/Classes/NotificationClasses/recommendNotificationClass.dart';
-import 'package:bcard/utilities/Classes/NotificationClasses/reminderNotificationClass.dart';
+//import 'package:bcard/utilities/Classes/NotificationClasses/reminderNotificationClass.dart';
 import 'package:bcard/utilities/Classes/liveEventClass.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
 import 'package:bcard/utilities/Classes/reminderClass.dart';
@@ -12,6 +12,7 @@ import 'package:bcard/utilities/Classes/userClass.dart';
 import 'package:bcard/utilities/localStorage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -275,7 +276,9 @@ class FirebaseFunctions {
   static Future<List<DocumentSnapshot>> discoverProfiles(
       List<String> searchTags, int i) async {
     QuerySnapshot qs;
-    Query q = _firestore.collection("profiles");
+    Query q = _firestore
+        .collection("profiles")
+        .where("profileType", isEqualTo: "business");
     switch (i) {
       case 0:
         q = q.where("tags", arrayContainsAny: searchTags);
@@ -303,14 +306,15 @@ class FirebaseFunctions {
     return qs.docs.map<Profile>((doc) => Profile.fromJson(doc.data())).toList();
   }
 
-  static Future<bool> requestProfile(Profile profile) async {
+  static Future<bool> requestProfile(Profile profile, String message) async {
     if (!AppConfig.me.requestedProfiles.contains(profile.id) &&
         !AppConfig.me.acceptedProfiles.contains(profile.id)) {
       ProfileRequestNotification request = new ProfileRequestNotification(
           AppConfig.currentProfile.id,
           profile.id,
           AppConfig.me.userId,
-          RequestStatus.requested);
+          RequestStatus.requested,
+          message);
       DocumentReference ref = _firestore.collection("notifications").doc();
       request.id = ref.id;
       await ref.set(request.toJson());
@@ -345,14 +349,12 @@ class FirebaseFunctions {
   }
 
   static Future<void> visitProfile(String profileId) async {
-    //if (!AppConfig.me.profilesVisited.contains(profileId)) {
-    // AppConfig.addVisitedProfile(profileId);
-    ProfileVisitedNotification profileVisited =
+    /* ProfileVisitedNotification profileVisited =
         new ProfileVisitedNotification(AppConfig.currentProfile.id, profileId);
     DocumentReference ref = _firestore.collection("notifications").doc();
     profileVisited.id = ref.id;
-    await ref.set(profileVisited.toJson());
-    //}
+    await ref.set(profileVisited.toJson()); */
+    //TODO added above comment for v2.0
   }
 
   static Stream<QuerySnapshot> get notificationStream {
@@ -430,14 +432,15 @@ class FirebaseFunctions {
       remIds.add(reminders[i].id);
       reminderRef.set(reminders[i].toJson());
       if (reminders[i].pinnedProfile != null) {
-        DocumentReference notifRef =
+        /* DocumentReference notifRef =
             _firestore.collection("notifications").doc();
         ReminderNotification reminderNotification = new ReminderNotification(
             AppConfig.currentProfile.id,
             reminders[i].pinnedProfile,
             reminders[i].id);
         reminderNotification.id = notifRef.id;
-        notifRef.set(reminderNotification.toJson());
+        notifRef.set(reminderNotification.toJson()); */
+        //TODO added above comment for v2.0
       }
     }
     return remIds;
@@ -517,6 +520,18 @@ class FirebaseFunctions {
 
   static Future<void> reportProfile(Report report) async {
     _firestore.collection("profileReports").add(report.toJson());
+  }
+
+  static Future<String> getProfileUrl(String profileId) async {
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://peoplecard.page.link',
+      link: Uri.parse('https://peoplecard.com/openProfile?param=$profileId'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.peoplecard.app',
+      ),
+    );
+    final ShortDynamicLink dynamicUrl = await parameters.buildShortLink();
+    return dynamicUrl.shortUrl.toString();
   }
 
   /* static Future<void> setCardDesigns() async {

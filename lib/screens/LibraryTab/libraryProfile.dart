@@ -1,12 +1,15 @@
 import 'package:bcard/utilities/Classes/profileClass.dart';
+import 'package:bcard/utilities/Constants/encodersAndDecoders.dart';
 import 'package:bcard/utilities/Constants/logoBox.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:flutter/material.dart';
 
 class LibraryProfile extends StatelessWidget {
   final Profile _profile;
+  final DateTime _dateAdded;
   final double logoHeight, logoWidth;
-  LibraryProfile(this._profile, {this.logoHeight, this.logoWidth});
+  LibraryProfile(this._profile, this._dateAdded,
+      {this.logoHeight, this.logoWidth});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -29,20 +32,37 @@ class LibraryProfile extends StatelessWidget {
                   logoWidth ?? size.width * 0.23),
             ),
           ),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  _profile.companyName ?? "Company Name",
-                  style: myTs(color: color5, size: 18),
-                ),
-                Text(
-                  _profile.occupation ?? "Occupation",
-                  style: myTs(color: color5, size: 13),
-                ),
-              ],
+          Expanded(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _profile.companyName ?? "Company Name",
+                      style: myTs(color: color5, size: 18),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _profile.occupation ?? "Occupation",
+                      style: myTs(color: color5, size: 13),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      "${dateString(_dateAdded)}",
+                      style: myTs(
+                        color: color5.withOpacity(0.3),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

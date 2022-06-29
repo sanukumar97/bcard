@@ -73,6 +73,8 @@ class _DiscoverProfileSearchOptionsState
 
   @override
   Widget build(BuildContext context) {
+    bool _inRecent =
+        AppConfig.me.cardLibraries[0].profileIds.contains(widget._profile.id);
     if (_selectLibrary) {
       return Container(
         color: color2,
@@ -124,17 +126,36 @@ class _DiscoverProfileSearchOptionsState
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: _libraryList.length,
-                itemBuilder: (context, i) => ListTile(
-                  onTap: () {
-                    AppConfig.me.cardLibraries[i]
-                        .addProfile(widget._profile.id);
-                    Navigator.pop(context);
-                  },
-                  title: Text(
-                    _libraryList[i].name,
-                    style: myTs(color: color5, size: 16),
-                  ),
-                ),
+                itemBuilder: (context, i) {
+                  bool _inLibrary = AppConfig.me.cardLibraries[i].profileIds
+                      .contains(widget._profile.id);
+                  return ListTile(
+                    onTap: _inLibrary
+                        ? () {
+                            setState(() {
+                              AppConfig.me.cardLibraries[i]
+                                  .removeProfile([widget._profile.id]);
+                            });
+                          }
+                        : () {
+                            setState(() {
+                              AppConfig.me.cardLibraries[i]
+                                  .addProfile(widget._profile.id);
+                            });
+                          },
+                    title: Text(
+                      _libraryList[i].name,
+                      style:
+                          myTs(color: _inLibrary ? color4 : color5, size: 16),
+                    ),
+                    trailing: _inLibrary
+                        ? Icon(
+                            Icons.check,
+                            color: color4,
+                          )
+                        : null,
+                  );
+                },
               ),
             ],
           ),
@@ -148,14 +169,23 @@ class _DiscoverProfileSearchOptionsState
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              onTap: () {
-                AppConfig.me.cardLibraries[0].addProfile(widget._profile.id);
-                Navigator.pop(context);
-              },
+              onTap: _inRecent
+                  ? null
+                  : () {
+                      AppConfig.me.cardLibraries[0]
+                          .addProfile(widget._profile.id);
+                      Navigator.pop(context);
+                    },
               title: Text(
-                "Save",
-                style: myTs(color: color5, size: 16),
+                _inRecent ? "Saved" : "Save",
+                style: myTs(color: _inRecent ? color4 : color5, size: 16),
               ),
+              trailing: _inRecent
+                  ? Icon(
+                      Icons.check,
+                      color: color4,
+                    )
+                  : null,
             ),
             ListTile(
               onTap: () {
@@ -172,7 +202,7 @@ class _DiscoverProfileSearchOptionsState
                 color: color5,
               ),
             ),
-            ListTile(
+            /* ListTile(
               onTap: _recommendProfile,
               title: Text(
                 "Recommend",
@@ -189,7 +219,7 @@ class _DiscoverProfileSearchOptionsState
                 Icons.share,
                 color: color5,
               ),
-            ),
+            ), */
             widget.allowBlockAndReport
                 ? ListTile(
                     onTap: widget.blockProfile,

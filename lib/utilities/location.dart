@@ -9,7 +9,7 @@ class AppLocation {
   }
 
   static Future<LatLng> get currentLocation async {
-    if (await _location.serviceEnabled()) {
+    /* if (await _location.serviceEnabled()) {
       if (await _location.hasPermission() == PermissionStatus.granted) {
         LocationData locationData = await _location.getLocation();
         if (_location != null) {
@@ -23,6 +23,7 @@ class AppLocation {
     } else {
       _location.requestService();
       return null;
-    }
+    } */
+    return null;
   }
 }

@@ -3,25 +3,26 @@ import 'package:bcard/screens/DiscoverTab/profileDetails.dart';
 import 'package:bcard/screens/ProfileTab/settings.dart';
 import 'package:bcard/utilities/Classes/NotificationClasses/notificationClass.dart';
 import 'package:bcard/utilities/Classes/NotificationClasses/profileRequestNotificationClass.dart';
-import 'package:bcard/utilities/Classes/NotificationClasses/profileVisitedNotificationClass.dart';
+//import 'package:bcard/utilities/Classes/NotificationClasses/profileVisitedNotificationClass.dart';
 import 'package:bcard/utilities/Classes/NotificationClasses/recommendNotificationClass.dart';
-import 'package:bcard/utilities/Classes/NotificationClasses/reminderNotificationClass.dart';
+//import 'package:bcard/utilities/Classes/NotificationClasses/reminderNotificationClass.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
 import 'package:bcard/utilities/Constants/encodersAndDecoders.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
-import 'package:bcard/utilities/firebaseFunctions.dart';
+//import 'package:bcard/utilities/firebaseFunctions.dart';
 import 'package:bcard/utilities/localStorage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bcard/screens/NotificationTab/profileRequestNotification.dart';
-import 'package:bcard/screens/NotificationTab/profileVisitedNotification.dart';
+//import 'package:bcard/screens/NotificationTab/profileVisitedNotification.dart';
 import 'package:bcard/screens/NotificationTab/recommendNotification.dart';
-import 'package:bcard/screens/NotificationTab/reminderNotification.dart';
+//import 'package:bcard/screens/NotificationTab/reminderNotification.dart';
 
 class NotificationPage extends StatefulWidget {
   final Function newNotification;
   final Function(String) addReminder;
-  NotificationPage(this.newNotification, this.addReminder);
+  final Function(Profile) showProfile;
+  NotificationPage(this.newNotification, this.addReminder, this.showProfile);
 
   bool goBack() {
     return __notificationPageState._goback();
@@ -39,7 +40,6 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   StreamSubscription _requestStream;
-  Map<String, List<AppNotification>> _notifications = {};
   bool _showProfile = false;
   Profile _shownProfile;
 
@@ -59,7 +59,7 @@ class _NotificationPageState extends State<NotificationPage> {
     setState(() {});
   }
 
-  void _subscribeStream() {
+  /* void _subscribeStream() {
     _requestStream = FirebaseFunctions.notificationStream.listen((qs) {
       qs.docChanges.forEach((doc) {
         if ([
@@ -79,9 +79,10 @@ class _NotificationPageState extends State<NotificationPage> {
         _sort();
       });
     });
-  }
+  } */
+  //TODO Added above comment for v2.0
 
-  void addNotification(AppNotification notification) {
+  /* void addNotification(AppNotification notification) {
     String dt = DateTime(notification.date.year, notification.date.month,
             notification.date.day)
         .toIso8601String();
@@ -97,9 +98,10 @@ class _NotificationPageState extends State<NotificationPage> {
     } else {
       _notifications[dt] = <AppNotification>[notification];
     }
-  }
+  } */
+  //TODO Added above comment for v2.0
 
-  void _sort() {
+  /* void _sort() {
     var entries = _notifications.entries.toList();
     entries.sort((MapEntry<String, List<AppNotification>> day1,
         MapEntry<String, List<AppNotification>> day2) {
@@ -107,43 +109,50 @@ class _NotificationPageState extends State<NotificationPage> {
     });
     _notifications =
         new Map<String, List<AppNotification>>.fromEntries(entries);
-  }
+  } */
+  //TODO Added above comment for v2.0
 
   void _showNotificationProfile(Profile profile) {
-    setState(() {
+    Navigator.pop(context);
+    widget.showProfile(profile);
+    /* setState(() {
       _showProfile = true;
       _shownProfile = profile;
-    });
+    }); */
   }
 
   void _showNotificationReminder(String reminderId) {
-    goToTodoPage(reminderId);
+    //goToTodoPage(reminderId);
+    //TODO Added above comment for v2.0
   }
 
   void _handleError(AppNotification notification) {
-    for (var key in _notifications.keys) {
-      _notifications[key].removeWhere((not) => not.id == notification.id);
+    for (var key in AppConfig.notifications.value.keys) {
+      AppConfig.notifications.value[key]
+          .removeWhere((not) => not.id == notification.id);
     }
     setState(() {});
   }
 
   void _refresh() {
-    _requestStream.cancel();
+    /* _requestStream.cancel();
     setState(() {
       _notifications.clear();
     });
-    _subscribeStream();
+    _subscribeStream(); */
+    //TODO Added above comment for v2.0
   }
 
   @override
   void initState() {
     super.initState();
-    _subscribeStream();
+    //_subscribeStream();
+    //TODO added above comment for v2.0
   }
 
   @override
   void dispose() {
-    _requestStream.cancel();
+    //_requestStream.cancel();
     super.dispose();
   }
 
@@ -151,8 +160,8 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SettingsDrawer(),
-      appBar: AppBar(
+      //drawer: SettingsDrawer(),
+      /* appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: _showProfile && _shownProfile != null
             ? IconButton(
@@ -213,38 +222,68 @@ class _NotificationPageState extends State<NotificationPage> {
             ],
           ),
         ],
-      ),
-      backgroundColor: color2,
+      ), */
+      //TODO Added above comment for v2.0
+      backgroundColor: Colors.transparent,
       body: IndexedStack(
-        index: _showProfile ? 1 : 0,
+        index: /* _showProfile ? 1 : */ 0,
         children: <Widget>[
-              _notifications.isNotEmpty
-                  ? RefreshIndicator(
-                      onRefresh: () async {
-                        _refresh();
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 10, bottom: 2),
+                alignment: Alignment.center,
+                child: Text(
+                  "Connection update",
+                  style: myTs(color: color5, size: 16),
+                ),
+              ),
+              AppConfig.notifications.value.isNotEmpty
+                  ? ValueListenableBuilder<Map<String, List<AppNotification>>>(
+                      valueListenable: AppConfig.notifications,
+                      builder: (context, notifications, child) {
+                        var entries = notifications.entries.toList();
+                        entries.sort(
+                            (MapEntry<String, List<AppNotification>> day1,
+                                MapEntry<String, List<AppNotification>> day2) {
+                          return -1 * day1.key.compareTo(day2.key);
+                        });
+                        Map<String, List<AppNotification>> notif =
+                            new Map<String, List<AppNotification>>.fromEntries(
+                                entries);
+                        return Expanded(
+                          child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
+                            child: Column(
+                              children: List<Widget>.generate(
+                                notif.length,
+                                (i) => _dayTile(
+                                  notif.keys.toList()[i],
+                                  notif.values.toList()[i],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
                       },
-                      child: ListView.builder(
-                        addAutomaticKeepAlives: true,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: _notifications.length,
-                        itemBuilder: (context, i) {
-                          return _dayTile(
-                            _notifications.keys.toList()[i],
-                            _notifications.values.toList()[i],
-                          );
-                        },
-                      ),
                     )
-                  : Center(
-                      child: Text(
-                        "No New Notification",
-                        style: myTs(color: color5, size: 20),
+                  : Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "No New update!",
+                          style: myTs(color: color5, size: 20),
+                        ),
                       ),
                     ),
-            ] +
+            ],
+          ),
+        ]
+        /* +
             (_showProfile
                 ? <Widget>[DiscoverProfileCardDetails(_shownProfile)]
-                : <Widget>[]),
+                : <Widget>[]) */
+        ,
       ),
     );
   }
@@ -257,20 +296,20 @@ class _NotificationPageState extends State<NotificationPage> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 5),
           child: Text(
             _dateString,
             style: myTs(color: color5, size: 16),
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          addAutomaticKeepAlives: true,
+        SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
-          itemCount: notifications.length,
-          itemBuilder: (context, i) {
-            return _notificationTile(notifications[i]);
-          },
+          child: Column(
+            children: List<Widget>.generate(
+              notifications.length,
+              (i) => _notificationTile(notifications[i]),
+            ),
+          ),
         ),
       ],
     );
@@ -283,14 +322,16 @@ class _NotificationPageState extends State<NotificationPage> {
           return ProfileRequestTile(notification as ProfileRequestNotification,
               _showNotificationProfile, _handleError);
           break;
-        case NotificationType.visit:
+        /* case NotificationType.visit:
           return ProfileVisitedTile(notification as ProfileVisitedNotification,
               _showNotificationProfile);
-          break;
-        case NotificationType.reminder:
+          break; */
+        //TODO Added above comment for v2.0
+        /* case NotificationType.reminder:
           return ReminderNotificationTile(
               notification as ReminderNotification, _showNotificationReminder);
-          break;
+          break; */
+        //TODO Added above comment for v2.0
         case NotificationType.recommend:
           return ProfileRecommendationTile(
               notification as RecommendNotification, _showNotificationProfile);

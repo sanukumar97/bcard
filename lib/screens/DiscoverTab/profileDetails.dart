@@ -1,3 +1,4 @@
+import 'package:bcard/screens/CardDesigns/shareCard.dart';
 import 'package:bcard/screens/DiscoverTab/profileOptions.dart';
 import 'package:bcard/screens/DiscoverTab/recommendBottomSheet.dart';
 import 'package:bcard/screens/ProfileTab/requestCardDialog.dart';
@@ -33,7 +34,8 @@ class _DiscoverProfileCardDetailsState
     extends State<DiscoverProfileCardDetails> {
   bool _cardAccepted = false, _cardRequested = false;
   bool _loading = false;
-  List<Reminder> _reminders = [];
+  //List<Reminder> _reminders = [];
+  //TODO added above comment for v2.0
 
   void _requestProfile() async {
     setState(() {
@@ -45,7 +47,13 @@ class _DiscoverProfileCardDetailsState
     } else if (!_cardRequested) {
       _cardRequested = (await showDialog<bool>(
             context: context,
-            builder: (context) => RequestCardDialog(profile: widget._profile),
+            builder: (context) => Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              backgroundColor: Colors.transparent,
+              child: RequestCardDialog(profile: widget._profile),
+            ),
           ) ??
           false);
       //_cardRequested = await FirebaseFunctions.requestProfile(widget._profile);
@@ -65,9 +73,10 @@ class _DiscoverProfileCardDetailsState
   }
 
   void _fetchReminders() async {
-    _reminders =
+    /* _reminders =
         await FirebaseFunctions.getRemindersLinkedToProfile(widget._profile.id);
-    if (this.mounted) setState(() {});
+    if (this.mounted) setState(() {}); */
+    //TODO added above comment for v2.0
   }
 
   void _blockProfile() async {
@@ -145,14 +154,14 @@ class _DiscoverProfileCardDetailsState
                                       ProfileLevel.beginner
                                   ? color4
                                   : color5,
-                              size: 10,
+                              size: 12,
                             ),
                           ),
                           TextSpan(
                             text: " / ",
                             style: myTs(
                               color: color5,
-                              size: 10,
+                              size: 12,
                             ),
                           ),
                           TextSpan(
@@ -162,14 +171,14 @@ class _DiscoverProfileCardDetailsState
                                       ProfileLevel.intermediate
                                   ? color4
                                   : color5,
-                              size: 10,
+                              size: 12,
                             ),
                           ),
                           TextSpan(
                             text: " / ",
                             style: myTs(
                               color: color5,
-                              size: 10,
+                              size: 12,
                             ),
                           ),
                           TextSpan(
@@ -179,7 +188,7 @@ class _DiscoverProfileCardDetailsState
                                       ProfileLevel.professional
                                   ? color4
                                   : color5,
-                              size: 10,
+                              size: 12,
                             ),
                           ),
                         ],
@@ -322,7 +331,7 @@ class _DiscoverProfileCardDetailsState
   }
 
   Widget get _acceptedBody {
-    Widget _reminderBody(Reminder reminder) {
+    /* Widget _reminderBody(Reminder reminder) {
       void _markAsDone(bool value) {
         reminder.ref.update({"completed": value});
         setState(() {
@@ -375,7 +384,8 @@ class _DiscoverProfileCardDetailsState
           ],
         ),
       );
-    }
+    } */
+    //TODO added above comment for v2.0
 
     if (_cardAccepted)
       return Column(
@@ -518,20 +528,49 @@ class _DiscoverProfileCardDetailsState
               ),
               GestureDetector(
                 onTap: () {
-                  openChat(recieverProfileId: widget._profile.id);
+                  showDialog(
+                    context: context,
+                    builder: (context) => SocialMediaChangeDialog(
+                        data: widget._profile.socialMedia,
+                        save: (List<String> updatedData) {},
+                        editable: false,
+                        action: (String s) {
+                          if (s != null && s.isNotEmpty) {
+                            int index = widget._profile.socialMedia
+                                .indexWhere((handle) => handle == s);
+                            String url = addHandleHeader(s, index);
+                            Uri _httpUri = new Uri(scheme: "https", path: url);
+                            launch(_httpUri.toString());
+                          }
+                        },
+                        validator: (s) {
+                          return null;
+                        },
+                        iconPaths: List.generate(
+                            5, (i) => "assets/icons/sm${i + 1}.svg"),
+                        maxLength: null,
+                        hintTexts: [
+                          "Add Instagram Handle",
+                          "Add WhatsApp Number(+XX)",
+                          "Add Behance Handle",
+                          "Add LinkedIn Handle",
+                          "Add Facebook Handle",
+                        ],
+                        keyboardType: TextInputType.name),
+                  );
                 },
                 child: Container(
                   height: 80,
                   child: Column(
                     children: [
                       SvgPicture.asset(
-                        "assets/icons/chat2.svg",
+                        "assets/icons/socialMedia.svg",
                         height: 50,
                         width: 50,
                       ),
                       SizedBox(height: 7),
                       Text(
-                        "Chat",
+                        "Social Media",
                         style: myTs(color: color5, size: 12),
                       )
                     ],
@@ -638,33 +677,7 @@ class _DiscoverProfileCardDetailsState
                 onTap: () {
                   showDialog(
                     context: context,
-                    builder: (context) => SocialMediaChangeDialog(
-                        data: widget._profile.socialMedia,
-                        save: (List<String> updatedData) {},
-                        editable: false,
-                        action: (String s) {
-                          if (s != null && s.isNotEmpty) {
-                            int index = widget._profile.socialMedia
-                                .indexWhere((handle) => handle == s);
-                            String url = addHandleHeader(s, index);
-                            Uri _httpUri = new Uri(scheme: "http", path: url);
-                            launch(_httpUri.toString());
-                          }
-                        },
-                        validator: (s) {
-                          return null;
-                        },
-                        iconPaths: List.generate(
-                            5, (i) => "assets/icons/sm${i + 1}.svg"),
-                        maxLength: null,
-                        hintTexts: [
-                          "Add Instagram Handle",
-                          "Add Behance Handle",
-                          "Add LinkedIn Handle",
-                          "Add Facebook Handle",
-                          "Add Medium Handle",
-                        ],
-                        keyboardType: TextInputType.name),
+                    builder: (context) => ShareDialog(widget._profile),
                   );
                 },
                 child: Container(
@@ -672,13 +685,13 @@ class _DiscoverProfileCardDetailsState
                   child: Column(
                     children: [
                       SvgPicture.asset(
-                        "assets/icons/socialMedia.svg",
+                        "assets/icons/share1.svg",
                         height: 50,
                         width: 50,
                       ),
                       SizedBox(height: 7),
                       Text(
-                        "Social Media",
+                        "Share",
                         style: myTs(color: color5, size: 12),
                       )
                     ],
@@ -709,7 +722,7 @@ class _DiscoverProfileCardDetailsState
               ),
             ],
           ),
-          GestureDetector(
+          /* GestureDetector(
             onTap: () {
               showDialog(
                 context: context,
@@ -747,13 +760,15 @@ class _DiscoverProfileCardDetailsState
                 ],
               ),
             ),
-          ),
-          ListView.builder(
+          ), */
+          //TODO added above comment for v2.0
+          /* ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: _reminders.length,
             itemBuilder: (context, i) => _reminderBody(_reminders[i]),
-          ),
+          ), */
+          //TODO added above comment for v2.0
         ],
       );
     else

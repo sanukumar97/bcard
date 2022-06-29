@@ -3,10 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileRequestNotification extends AppNotification {
   RequestStatus status;
+  String message;
   String senderUserId;
 
   ProfileRequestNotification(String senderProfileId, String recieverProfileId,
-      this.senderUserId, this.status) {
+      this.senderUserId, this.status, this.message) {
     this.notificationType = NotificationType.profileRequest;
     this.senderProfileId = senderProfileId;
     this.recieverProfileId = recieverProfileId;
@@ -23,6 +24,7 @@ class ProfileRequestNotification extends AppNotification {
     this.date = DateTime.parse(doc.data()["date"].toString());
     this.status =
         RequestStatus.values[int.parse(doc.data()["status"].toString())];
+    this.message = doc.data()["message"] ?? "";
   }
 
   Map<String, dynamic> toJson() => {
@@ -33,6 +35,7 @@ class ProfileRequestNotification extends AppNotification {
         "senderUserId": this.senderUserId,
         "date": this.date.toIso8601String(),
         "status": this.status.index,
+        "message": this.message,
       };
 }
 

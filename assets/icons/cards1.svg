@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="95.366" height="71.07" viewBox="0 0 95.366 71.07">
+  <g id="Group_2780" data-name="Group 2780" transform="translate(-1942.5 -394.429)">
+    <g id="Group_2769" data-name="Group 2769" transform="translate(281 11)">
+      <rect id="Rectangle_1063" data-name="Rectangle 1063" width="90" height="66" rx="5" transform="translate(1664 386)" fill="#fff"/>
+      <g id="Group_82" data-name="Group 82" transform="translate(1662 383.929)">
+        <g id="Group_77" data-name="Group 77">
+          <path id="Path_11" data-name="Path 11" d="M537.525,795.568h-5.846v-2.906h2.941V770.524a6.5,6.5,0,0,0-6.489-6.49H452.554a6.5,6.5,0,0,0-6.49,6.49v22.138H449v2.906h-5.842V770.524a9.406,9.406,0,0,1,9.4-9.4H528.13a9.406,9.406,0,0,1,9.4,9.4Z" transform="translate(-443.159 -761.129)" fill="#16202c" stroke="#16202c" stroke-width="1"/>
+        </g>
+        <g id="Group_78" data-name="Group 78" transform="translate(8.702 10.883)">
+          <path id="Path_12" data-name="Path 12" d="M521.38,779.527h-1.762a3.513,3.513,0,0,0-3.33-3.665H449.516a3.516,3.516,0,0,0-3.337,3.665h-1.762V769.54a5.373,5.373,0,0,1,5.1-5.6h66.772a5.369,5.369,0,0,1,5.092,5.6Zm-71.864-13.652a3.516,3.516,0,0,0-3.337,3.665v5.753a4.821,4.821,0,0,1,3.337-1.368h66.772a4.794,4.794,0,0,1,3.33,1.368V769.54a3.513,3.513,0,0,0-3.33-3.665Z" transform="translate(-444.417 -763.938)" fill="#16202c" stroke="#16202c" stroke-width="1"/>
+        </g>
+        <g id="Group_79" data-name="Group 79" transform="translate(0 31.521)">
+          <path id="Path_13" data-name="Path 13" d="M528.13,807.815H452.554a9.407,9.407,0,0,1-9.4-9.4V769.288h29.379c.252-.058,4.638-.5,10.085,7.1,1.124,1.569,2.739,3.243,7.718,3.243s6.5-1.534,7.718-3.243c5.087-7.09,9.244-7.183,10.166-7.1h29.3v29.127A9.407,9.407,0,0,1,528.13,807.815Zm-82.065-35.62v26.221a6.5,6.5,0,0,0,6.49,6.493H528.13a6.5,6.5,0,0,0,6.489-6.493V772.194l-26.655-.012c-.19-.031-3.312,0-7.543,5.9-1.538,2.158-3.719,4.455-10.081,4.455-6.067,0-8.5-2.255-10.081-4.459-4.366-6.09-7.508-5.9-7.551-5.9Z" transform="translate(-443.159 -769.265)" fill="#16202c" stroke="#16202c" stroke-width="1"/>
+        </g>
+        <g id="Group_80" data-name="Group 80" transform="translate(8.704 26.472)">
+          <rect id="Rectangle_164" data-name="Rectangle 164" width="1.878" height="6.511" fill="#16202c" stroke="#16202c" stroke-width="1"/>
+        </g>
+        <g id="Group_81" data-name="Group 81" transform="translate(83.789 26.472)">
+          <rect id="Rectangle_165" data-name="Rectangle 165" width="1.878" height="6.511" fill="#16202c" stroke="#16202c" stroke-width="1"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

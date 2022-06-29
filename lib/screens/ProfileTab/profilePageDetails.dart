@@ -5,6 +5,7 @@ import 'package:bcard/screens/CardDesigns/shareCard.dart';
 import 'package:bcard/screens/ProfileTab/requestCardDialog.dart';
 import 'package:bcard/utilities/Classes/locationClass.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
+import 'package:bcard/utilities/Constants/flutterMobileVision.dart';
 import 'package:bcard/utilities/Constants/locationChangeDialog.dart';
 import 'package:bcard/utilities/Constants/profileChangeDialog.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
@@ -21,8 +22,14 @@ class ProfilePageDetails extends StatefulWidget {
   bool _edit;
   final Function(String) showErrorMessage;
   final Profile _profile;
+  final Function _searchDialogOpened, _searchDialogClosed;
   ProfilePageDetails(
-      this._profile, this.startEditing, this._edit, this.showErrorMessage);
+      this._profile,
+      this.startEditing,
+      this._edit,
+      this.showErrorMessage,
+      this._searchDialogOpened,
+      this._searchDialogClosed);
 
   @override
   _ProfilePageDetailsState createState() => _ProfilePageDetailsState();
@@ -32,17 +39,36 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   GlobalKey _tagHint = new GlobalKey();
 
   void _shareCardDialog() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       builder: (context) => ShareDialog(widget._profile),
     );
   }
 
-  void _requestCardDialog() {
-    showDialog(
+  void _requestCardDialog() async {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
+    widget._searchDialogOpened();
+    PersistentBottomSheetController controller = showBottomSheet(
       context: context,
       builder: (context) => RequestCardDialog(),
+      backgroundColor: Colors.transparent,
     );
+    await controller.closed;
+    widget._searchDialogClosed();
+    /* showDialog(
+      context: context,
+      builder: (context) => RequestCardDialog(),
+    ); */
+    //TODO Added above comment for v2.0
   }
 
   void cardStructureChanged() {
@@ -66,6 +92,75 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          widget._edit
+              ? Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              _changeProfileLevel(ProfileLevel.beginner);
+                            },
+                          text: "Beginner",
+                          style: myTs(
+                            color: widget._profile.profileLevel ==
+                                    ProfileLevel.beginner
+                                ? color4
+                                : color5,
+                            size: 14,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " / ",
+                          style: myTs(
+                            color: color5,
+                            size: 14,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Intermediate",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              _changeProfileLevel(ProfileLevel.intermediate);
+                            },
+                          style: myTs(
+                            color: widget._profile.profileLevel ==
+                                    ProfileLevel.intermediate
+                                ? color4
+                                : color5,
+                            size: 14,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " / ",
+                          style: myTs(
+                            color: color5,
+                            size: 14,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Professional",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              _changeProfileLevel(ProfileLevel.professional);
+                            },
+                          style: myTs(
+                            color: widget._profile.profileLevel ==
+                                    ProfileLevel.professional
+                                ? color4
+                                : color5,
+                            size: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : SizedBox(),
+          SizedBox(height: 15),
           GestureDetector(
             onTap: () {
               if (!widget._edit) {
@@ -222,13 +317,13 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SvgPicture.asset(
-                              "assets/icons/reqCard.svg",
+                              "assets/icons/search1.svg",
                               height: 50,
                               width: 50,
                             ),
                             SizedBox(height: 7),
                             Text(
-                              "Request Card",
+                              "Search Profile",
                               style: myTs(color: color5, size: 12),
                             )
                           ],
@@ -236,7 +331,10 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        /* List<String> texts = await ScanCard.startScan();
+                        print("!!!!!!!!!!!!!!!The Texts are: $texts"); */
+                      },
                       child: Container(
                         height: 94,
                         child: Column(
@@ -251,11 +349,6 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
                             Text(
                               "Scan Card",
                               style: myTs(color: color5, size: 12),
-                            ),
-                            SizedBox(height: 7),
-                            Text(
-                              "Coming soon",
-                              style: myTs(color: color4, size: 12),
                             ),
                           ],
                         ),
@@ -307,10 +400,20 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
                                       overlayColor: color3,
                                       showcaseBackgroundColor: color3,
                                       textColor: color5,
-                                      description: "Add #tag for better reach",
+                                      description:
+                                          "Add tag (Your profile keywords)",
                                       showArrow: true,
                                       child: GestureDetector(
                                         onTap: () {
+                                          if (!FocusScope.of(context)
+                                                  .hasPrimaryFocus &&
+                                              FocusScope.of(context)
+                                                      .focusedChild !=
+                                                  null) {
+                                            print("Has Focus");
+                                            FocusManager.instance.primaryFocus
+                                                .unfocus();
+                                          }
                                           showDialog(
                                             context: context,
                                             barrierDismissible: false,
@@ -394,6 +497,11 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
                       }
                       return GestureDetector(
                         onTap: () {
+                          if (!FocusScope.of(context).hasPrimaryFocus &&
+                              FocusScope.of(context).focusedChild != null) {
+                            print("Has Focus");
+                            FocusManager.instance.primaryFocus.unfocus();
+                          }
                           showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -449,75 +557,6 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
                   ),
                 )
               : SizedBox(),
-          SizedBox(height: 15),
-          widget._edit
-              ? Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                  child: RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              _changeProfileLevel(ProfileLevel.beginner);
-                            },
-                          text: "Beginner",
-                          style: myTs(
-                            color: widget._profile.profileLevel ==
-                                    ProfileLevel.beginner
-                                ? color4
-                                : color5,
-                            size: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " / ",
-                          style: myTs(
-                            color: color5,
-                            size: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "Intermediate",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              _changeProfileLevel(ProfileLevel.intermediate);
-                            },
-                          style: myTs(
-                            color: widget._profile.profileLevel ==
-                                    ProfileLevel.intermediate
-                                ? color4
-                                : color5,
-                            size: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " / ",
-                          style: myTs(
-                            color: color5,
-                            size: 14,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "Professional",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              _changeProfileLevel(ProfileLevel.professional);
-                            },
-                          style: myTs(
-                            color: widget._profile.profileLevel ==
-                                    ProfileLevel.professional
-                                ? color4
-                                : color5,
-                            size: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : SizedBox(),
           SizedBox(height: 60),
         ],
       ),
@@ -525,6 +564,11 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   }
 
   void _updateMobile() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -554,6 +598,11 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   }
 
   void _updatePhone() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -583,6 +632,11 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   }
 
   void _updateEmail() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -612,19 +666,27 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   }
 
   void _updateWebsites() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => ProfileChangeDialog(
         data: widget._profile.website,
         save: (List<String> updatedData) {
+          /* for (int i = 0; i < updatedData.length; i++) {
+            updatedData[i] = "http" + updatedData[i];
+          } */
           widget._profile.website = updatedData;
         },
         validator: (s) {
           if (s.isEmpty)
             return "Enter Website";
-          else if (s.isNotEmpty && !Uri.parse(s).isAbsolute)
-            return "Not Valid";
+          /* else if (s.isNotEmpty && !Uri.parse(s).isAbsolute)
+            return "Not Valid"; */
           else
             return null;
         },
@@ -639,6 +701,11 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   }
 
   void _updateLocation() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -664,11 +731,17 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
   }
 
   void _updateSocialMedia() {
+    if (!FocusScope.of(context).hasPrimaryFocus &&
+        FocusScope.of(context).focusedChild != null) {
+      print("Has Focus");
+      FocusManager.instance.primaryFocus.unfocus();
+    }
     showDialog(
       context: context,
       builder: (context) => SocialMediaChangeDialog(
           data: widget._profile.socialMedia,
           save: (List<String> updatedData) {
+            print(updatedData);
             widget._profile.socialMedia = updatedData;
           },
           validator: (s) {
@@ -678,10 +751,10 @@ class _ProfilePageDetailsState extends State<ProfilePageDetails> {
           maxLength: null,
           hintTexts: [
             "Add Instagram Handle",
+            "Add WhatsApp No.(+XX)",
             "Add Behance Handle",
             "Add LinkedIn Handle",
             "Add Facebook Handle",
-            "Add Medium Handle",
           ],
           keyboardType: TextInputType.name),
     );

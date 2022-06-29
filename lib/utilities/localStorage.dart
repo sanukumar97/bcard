@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bcard/utilities/Classes/NotificationClasses/notificationClass.dart';
 import 'package:bcard/utilities/Classes/libraryClass.dart';
 import 'package:bcard/utilities/Classes/profileClass.dart';
 import 'package:bcard/utilities/Classes/userClass.dart';
@@ -6,6 +7,7 @@ import 'package:bcard/utilities/connectivity.dart';
 import 'package:bcard/utilities/Constants/randomConstants.dart';
 import 'package:bcard/utilities/firebaseFunctions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,6 +24,10 @@ class AppConfig {
   static int _currentSelectedProfile;
   static List<String> horizantalCardDesigns = [], verticalCardDesigns = [];
   static String defaultHorizantalCardDesign, defaultVerticalCardDesign;
+  static ValueNotifier<Map<String, List<AppNotification>>> notifications =
+      new ValueNotifier<Map<String, List<AppNotification>>>({});
+  static ValueNotifier<bool> newNotification = ValueNotifier<bool>(false);
+  //TODO Above 2 variables added for v2.0
 
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
@@ -42,7 +48,49 @@ class AppConfig {
         AppConfig.synchroniseChangesToServer();
         AppConfig.synchroniseChangesFromServer();
       }
+      _startGettingNotifications();
     }
+  }
+
+  static void _startGettingNotifications() {
+    void addNotification(AppNotification notification) {
+      String dt = DateTime(notification.date.year, notification.date.month,
+              notification.date.day)
+          .toIso8601String();
+      if (notifications.value.containsKey(dt)) {
+        notifications.value[dt].removeWhere((not) => not.id == notification.id);
+        notifications.value[dt].add(notification);
+        notifications.value[dt].sort((AppNotification n1, AppNotification n2) {
+          return -1 * n1.date.compareTo(n2.date);
+        });
+      } else {
+        notifications.value[dt] = <AppNotification>[notification];
+      }
+    }
+
+    notifications = new ValueNotifier<Map<String, List<AppNotification>>>({});
+    FirebaseFunctions.notificationStream.listen((qs) {
+      qs.docChanges.forEach((doc) {
+        if ([
+          AppConfig.me.businessDocId,
+          //AppConfig.me.personalDocId,
+          //TODO Added above comment for v2.0
+        ].contains(doc.doc.data()["recieverProfileId"])) {
+          AppNotification _notification =
+              AppNotification.getNotification(doc.doc);
+          if ([NotificationType.profileRequest, NotificationType.recommend]
+              .contains(_notification.notificationType))
+          //TODO Added above if condition for v2.0
+          {
+            if (!AppConfig.notificationsRead.contains(_notification.id)) {
+              newNotification.value = true;
+              AppConfig.addNotificationRead(_notification.id);
+            }
+            addNotification(_notification);
+          }
+        }
+      });
+    });
   }
 
   static Future<void> getCardDesigns() async {
@@ -59,10 +107,12 @@ class AppConfig {
                     doc.data()["horizantalCardDesigns"].length,
                     (i) => doc.data()["horizantalCardDesigns"][i])
                 : [];
-        AppConfig.verticalCardDesigns = doc.data()["verticalCardDesigns"] != null
-            ? new List<String>.generate(doc.data()["verticalCardDesigns"].length,
-                (i) => doc.data()["verticalCardDesigns"][i])
-            : [];
+        AppConfig.verticalCardDesigns =
+            doc.data()["verticalCardDesigns"] != null
+                ? new List<String>.generate(
+                    doc.data()["verticalCardDesigns"].length,
+                    (i) => doc.data()["verticalCardDesigns"][i])
+                : [];
       }
     });
   }
